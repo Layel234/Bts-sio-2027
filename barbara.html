@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Barbara - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("https://static.wikia.nocookie.net/gensin-impact/images/a/a4/Character_Barbara_Card.png") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #a8d8f0; }
+  .back-home button, .search-bar button {
+    background-color: #a8d8f0;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #a8d8f0;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #a8d8f0;
+    color: #06111c;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: none;
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(168, 216, 240, 0.10);
+    border: 1px solid rgba(168, 216, 240, 0.25);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #e8e0d0;
+  }
+  .info-card strong { color: #a8d8f0; display: block; margin-bottom: 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-family: 'Cinzel', serif; }
+  .info-card span { font-size: 0.95rem; font-weight: 300; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Barbara</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">💧 Hydro</span></div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Barbara — Splash Art" class="clickable-img" onerror="this.style.display='none'" />
+    <img src="image/" alt="Barbara — Portrait" class="clickable-img" onerror="this.style.display='none'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Barbara est la diaconesse de l'Église de Barbatos à Mondstadt et la petite sœur de Jean, la Grande Maîtresse des Chevaliers de Favonius. Idole adulée de la ville, elle manie le catalyseur et canalise l'élément Hydro pour soigner ses alliés avec enthousiasme. Sa compétence élémentaire lui permet de créer un champ de soins régénératifs, faisant d'elle l'une des meilleures guérisseuses du jeu, particulièrement accessible dès le début de l'aventure.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Barbara a grandi dans l'ombre de sa grande sœur Jean, ce qui lui a longtemps donné un sentiment d'infériorité. Plutôt que de suivre la voie des Chevaliers, elle a trouvé sa propre vocation dans le soin et la foi auprès de l'Église de Barbatos. Passionnée de musique et de chant, elle est devenue malgré elle une véritable idole populaire à Mondstadt. Sa générosité sans bornes et son désir sincère d'aider les autres lui valent l'admiration de tous les habitants de la ville des vents.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Joyeuse, dévouée, empathique, légèrement maladroite mais d'une sincérité absolue</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Catalyseur Hydro, soins continus, Let the Show Begin (champ de soin), burst de résurrection en co-op</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Petite sœur de Jean, diaconesse de l'Église de Barbatos, idole populaire de Mondstadt</span></div>
+      <div class="info-card"><strong>Nation</strong><span>Mondstadt — Cité de la liberté et du vent</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/k_PnBcnbOrs"
+              title="Vidéo Barbara"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "neuvillette":"neuvillette.html","ayato":"ayato.html","kamisato ayato":"ayato.html",
+    "yelan":"yelan.html","tartaglia":"tartaglia.html","childe":"tartaglia.html",
+    "nilou":"nilou.html","sigewinne":"sigewinne.html","barbara":"barbara.html","xingqiu":"xingqiu.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

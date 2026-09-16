@@ -1,14 +1,951 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr" id="html-root">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Genshin Impact - Wiki Fan</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    #lang-toggle {
+      position: fixed;
+      top: 70px;
+      right: 18px;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,209,102,0.35);
+      border-radius: 30px;
+      padding: 5px 12px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.82rem;
+      color: #fff;
+      cursor: none;
+      backdrop-filter: blur(6px);
+      transition: box-shadow 0.3s;
+      user-select: none;
+    }
+    #lang-toggle:hover { box-shadow: 0 0 14px rgba(255,209,102,0.4); }
+    #lang-toggle .flag { font-size: 1.1rem; }
+    #lang-toggle .lbl { font-weight: 700; letter-spacing: 1px; color: #ffd166; }
+
+    #about-box {
+      background: rgba(0,0,0,0.35);
+      border-radius: 16px;
+      max-width: 860px;
+      margin: 30px auto;
+      padding: 30px 36px;
+      border: 1px solid rgba(255,209,102,0.18);
+      backdrop-filter: blur(4px);
+    }
+    #about-box h2 { margin-top: 0; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .about-card {
+      background: rgba(255,209,102,0.06);
+      border-radius: 10px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,209,102,0.12);
+    }
+    .about-card h4 { margin: 0 0 6px; color: #ffd166; font-family: 'Cinzel',serif; font-size: 0.9rem; }
+    .about-card p  { margin: 0; font-size: 0.88rem; color: rgba(255,255,255,0.82); line-height: 1.6; }
+
+    /* ── CHATBOT ── */
+    #chatbot-toggle {
+      position: fixed; bottom: 24px; left: 24px; z-index: 99997;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, #ffd166, #f4a52f);
+      border: 2px solid rgba(255,255,255,0.25);
+      box-shadow: 0 4px 18px rgba(255,209,102,0.45);
+      font-size: 1.5rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .25s, box-shadow .25s;
+    }
+    #chatbot-toggle:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(255,209,102,0.6); }
+    #chatbot-toggle .cb-pulse {
+      position: absolute; inset: -4px; border-radius: 50%;
+      border: 2px solid #ffd166; animation: cbpulse 1.8s infinite; pointer-events: none;
+    }
+    @keyframes cbpulse { 0% { opacity: .8; transform: scale(1); } 100% { opacity: 0; transform: scale(1.45); } }
+
+    #chatbot-panel {
+      position: fixed; bottom: 92px; left: 24px; z-index: 99997;
+      width: 340px; max-width: calc(100vw - 32px); height: 460px; max-height: 70vh;
+      background: rgba(15,12,8,0.95);
+      border: 1px solid rgba(255,209,102,0.3); border-radius: 16px;
+      display: flex; flex-direction: column; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+      font-family: 'Lato', sans-serif;
+      transform: translateY(16px) scale(.96); opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s;
+    }
+    #chatbot-panel.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+    #chatbot-header {
+      background: linear-gradient(135deg, rgba(255,209,102,0.18), rgba(255,209,102,0.05));
+      padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,209,102,0.2);
+      font-family: 'Cinzel', serif; color: #ffd166; font-size: 0.95rem; font-weight: 600;
+    }
+    #chatbot-close { background: none; border: none; color: #ffd166; font-size: 1rem; cursor: pointer; opacity: .7; }
+    #chatbot-close:hover { opacity: 1; }
+
+    #chatbot-messages { flex: 1; overflow-y: auto; padding: 14px 14px 6px; display: flex; flex-direction: column; gap: 10px; }
+    .cb-msg { max-width: 85%; padding: 9px 13px; border-radius: 14px; font-size: 0.86rem; line-height: 1.5; }
+    .cb-msg.bot { align-self: flex-start; background: rgba(255,209,102,0.1); border: 1px solid rgba(255,209,102,0.18); color: #f3eee2; border-bottom-left-radius: 4px; }
+    .cb-msg.user { align-self: flex-end; background: #ffd166; color: #1a1408; border-bottom-right-radius: 4px; font-weight: 600; }
+    .cb-msg.bot a { color: #ffe9b0; }
+
+    #chatbot-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 10px; }
+    .cb-chip { background: rgba(255,209,102,0.12); border: 1px solid rgba(255,209,102,0.3); color: #ffd166; font-size: 0.76rem; padding: 5px 11px; border-radius: 20px; cursor: pointer; transition: background .2s; }
+    .cb-chip:hover { background: rgba(255,209,102,0.25); }
+
+    #chatbot-input-row { display: flex; gap: 8px; padding: 12px; border-top: 1px solid rgba(255,209,102,0.18); }
+    #chatbot-input { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,209,102,0.25); border-radius: 20px; padding: 9px 14px; color: #fff; font-size: 0.86rem; font-family: 'Lato', sans-serif; outline: none; }
+    #chatbot-input::placeholder { color: rgba(255,255,255,0.4); }
+    #chatbot-input:focus { border-color: #ffd166; }
+    #chatbot-send { background: #ffd166; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; color: #1a1408; flex-shrink: 0; }
+    #chatbot-send:hover { background: #ffdd85; }
+
+    .cb-typing span { display: inline-block; width: 6px; height: 6px; background: #ffd166; border-radius: 50%; margin: 0 2px; animation: cbdot 1.2s infinite; }
+    .cb-typing span:nth-child(2) { animation-delay: .2s; }
+    .cb-typing span:nth-child(3) { animation-delay: .4s; }
+    @keyframes cbdot { 0%, 60%, 100% { opacity: .3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
+    @media (max-width: 480px) {
+      #chatbot-panel { left: 12px; right: 12px; width: auto; bottom: 84px; }
+      #chatbot-toggle { left: 16px; bottom: 16px; }
+    }
+  </style>
 </head>
 <body>
-	<h1>semestre de mes tps</h1>
-	<a href="pagesio.html"> projet 1 <a/>  <br>
-	<a href="à.html"> projet 2 <a/>
 
+<div id="progress-bar"></div>
+<div id="custom-cursor"></div>
+<div id="toast"></div>
+<canvas id="particles-canvas"></canvas>
+<button id="back-to-top" title="Retour en haut">&#9650;</button>
+<button id="music-btn" data-tooltip="Lancer la musique">&#127925;</button>
+<audio id="bg-music" loop><source src="audio/genshin_theme.mp3" type="audio/mpeg"/></audio>
+
+<button id="chatbot-toggle" onclick="toggleChatbot()" title="Assistant Teyvat">
+  <span class="cb-pulse"></span>
+  <span>&#128172;</span>
+</button>
+<div id="chatbot-panel">
+  <div id="chatbot-header">
+    <span id="chatbot-title">&#10022; Assistant Teyvat</span>
+    <button id="chatbot-close" onclick="toggleChatbot()">&#10005;</button>
+  </div>
+  <div id="chatbot-messages"></div>
+  <div id="chatbot-chips"></div>
+  <div id="chatbot-input-row">
+    <input type="text" id="chatbot-input" placeholder="Pose ta question&hellip;" />
+    <button id="chatbot-send" onclick="sendChatMessage()">&#10148;</button>
+  </div>
+</div>
+
+<button id="lang-toggle" onclick="toggleLang()" title="Switch language">
+  <span class="flag" id="lang-flag">&#127468;&#127463;</span>
+  <span class="lbl" id="lang-lbl">EN</span>
+</button>
+
+<nav id="navbar">
+  <div class="nav-logo">&#10022; Teyvat Wiki</div>
+  <div class="nav-links">
+    <a href="#accueil"     class="nav-link active" data-fr="&#127968; Accueil"      data-en="&#127968; Home">&#127968; Accueil</a>
+    <a href="#personnages" class="nav-link"         data-fr="&#128100; Personnages"  data-en="&#128100; Characters">&#128100; Personnages</a>
+    <a href="#regions"     class="nav-link"         data-fr="&#128506;&#65039; R&eacute;gions" data-en="&#128506;&#65039; Regions">&#128506;&#65039; R&eacute;gions</a>
+    <a href="#quiz"        class="nav-link"         data-fr="&#127919; Quiz"         data-en="&#127919; Quiz">&#127919; Quiz</a>
+    <a href="#avis"        class="nav-link"         data-fr="&#128172; Avis"         data-en="&#128172; Reviews">&#128172; Avis</a>
+    <a href="#news"        class="nav-link"         data-fr="&#128240; News"         data-en="&#128240; News">&#128240; News</a>
+    <a href="#about"       class="nav-link"         data-fr="&#8505;&#65039; &Agrave; propos" data-en="&#8505;&#65039; About">&#8505;&#65039; &Agrave; propos</a>
+  </div>
+  <div class="nav-search">
+    <input type="text" id="searchInput" placeholder="&#128269; Rechercher un perso&hellip;" />
+    <button onclick="searchCharacter()" data-fr="Chercher" data-en="Search">Chercher</button>
+  </div>
+  <div class="nav-burger" onclick="toggleMobileMenu()">&#9776;</div>
+</nav>
+<div id="mobile-menu">
+  <a href="#accueil"     onclick="closeMobileMenu()">&#127968; Accueil</a>
+  <a href="#personnages" onclick="closeMobileMenu()">&#128100; Personnages</a>
+  <a href="#regions"     onclick="closeMobileMenu()">&#128506;&#65039; R&eacute;gions</a>
+  <a href="#quiz"        onclick="closeMobileMenu()">&#127919; Quiz</a>
+  <a href="#avis"        onclick="closeMobileMenu()">&#128172; Avis</a>
+  <a href="#news"        onclick="closeMobileMenu()">&#128240; News</a>
+  <a href="#about"       onclick="closeMobileMenu()">&#8505;&#65039; &Agrave; propos</a>
+</div>
+
+<div class="overlay">
+
+  <section id="accueil" class="hero-section">
+    <div id="visit-counter"></div>
+    <div class="hero-content fade-in">
+      <h1>Genshin Impact</h1>
+      <p class="hero-subtitle" data-fr="Explorez le monde de Teyvat" data-en="Explore the world of Teyvat">Explorez le monde de Teyvat</p>
+      <p class="hero-desc" data-fr="Genshin Impact est un jeu d&apos;action-RPG en monde ouvert d&eacute;velopp&eacute; par miHoYo. Explorez le vaste monde de Teyvat, d&eacute;couvrez des personnages uniques et vivez une aventure &eacute;pique &agrave; travers diff&eacute;rents royaumes gouvern&eacute;s par les Archons." data-en="Genshin Impact is an open-world action-RPG developed by miHoYo. Explore the vast world of Teyvat, discover unique characters, and live an epic adventure across different kingdoms ruled by the Archons.">Genshin Impact est un jeu d&apos;action-RPG en monde ouvert d&eacute;velopp&eacute; par miHoYo. Explorez le vaste monde de Teyvat, d&eacute;couvrez des personnages uniques et vivez une aventure &eacute;pique &agrave; travers diff&eacute;rents royaumes gouvern&eacute;s par les Archons.</p>
+      <div class="hero-stats">
+        <div class="stat-box"><span class="stat-num">7</span><span class="stat-label" data-fr="R&eacute;gions" data-en="Regions">R&eacute;gions</span></div>
+        <div class="stat-box"><span class="stat-num">80+</span><span class="stat-label" data-fr="Personnages" data-en="Characters">Personnages</span></div>
+        <div class="stat-box"><span class="stat-num">7</span><span class="stat-label" data-fr="&Eacute;l&eacute;ments" data-en="Elements">&Eacute;l&eacute;ments</span></div>
+        <div class="stat-box"><span class="stat-num">4&#9733;/5&#9733;</span><span class="stat-label" data-fr="Raretés" data-en="Rarities">Raret&eacute;s</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lore-section fade-in">
+    <h2 data-fr="&#9876;&#65039; Le Lore de Genshin Impact" data-en="&#9876;&#65039; Genshin Impact Lore">&#9876;&#65039; Le Lore de Genshin Impact</h2>
+    <div class="lore-grid">
+      <div class="lore-card"><div class="lore-icon">&#127757;</div><h3>Teyvat</h3><p data-fr="Un monde b&eacute;ni par les sept archons, o&ugrave; humains et dieux coexistent dans un &eacute;quilibre fragile." data-en="A world blessed by the seven Archons, where humans and gods coexist in a fragile balance.">Un monde b&eacute;ni par les sept archons, o&ugrave; humains et dieux coexistent dans un &eacute;quilibre fragile.</p></div>
+      <div class="lore-card"><div class="lore-icon">&#128100;</div><h3 data-fr="Le Voyageur" data-en="The Traveler">Le Voyageur</h3><p data-fr="Venu d&apos;un autre monde, le Voyageur cherche son jumeau perdu apr&egrave;s une rencontre avec un &ecirc;tre inconnu." data-en="Coming from another world, the Traveler seeks their lost twin after an encounter with an unknown being.">Venu d&apos;un autre monde, le Voyageur cherche son jumeau perdu apr&egrave;s une rencontre avec un &ecirc;tre inconnu.</p></div>
+      <div class="lore-card"><div class="lore-icon">&#128065;&#65039;</div><h3 data-fr="Les Visions" data-en="Visions">Les Visions</h3><p data-fr="Des cristaux b&eacute;nis par les dieux qui conf&egrave;rent la ma&icirc;trise d&apos;un &eacute;l&eacute;ment &agrave; leur porteur." data-en="God-blessed crystals that grant their wielder mastery over one of the seven elements.">Des cristaux b&eacute;nis par les dieux qui conf&egrave;rent la ma&icirc;trise d&apos;un &eacute;l&eacute;ment &agrave; leur porteur.</p></div>
+      <div class="lore-card"><div class="lore-icon">&#128520;</div><h3>La Fatui</h3><p data-fr="Une organisation secr&egrave;te de Snezhnaya qui cherche &agrave; s&apos;emparer des pouvoirs des Archons." data-en="A secret organization from Snezhnaya seeking to seize the powers of the Archons.">Une organisation secr&egrave;te de Snezhnaya qui cherche &agrave; s&apos;emparer des pouvoirs des Archons.</p></div>
+    </div>
+  </section>
+
+  <section id="personnages" class="perso-section">
+    <h2 data-fr="&#128100; Personnages" data-en="&#128100; Characters">&#128100; Personnages</h2>
+    <div class="element-filters">
+      <button class="filter-btn active" data-filter="all"     data-fr="Tous"       data-en="All">Tous</button>
+      <button class="filter-btn cryo"   data-filter="cryo"    data-fr="&#10052;&#65039; Cryo"  data-en="&#10052;&#65039; Cryo">&#10052;&#65039; Cryo</button>
+      <button class="filter-btn pyro"   data-filter="pyro"    data-fr="&#128293; Pyro"  data-en="&#128293; Pyro">&#128293; Pyro</button>
+      <button class="filter-btn hydro"  data-filter="hydro"   data-fr="&#128167; Hydro" data-en="&#128167; Hydro">&#128167; Hydro</button>
+      <button class="filter-btn electro" data-filter="electro" data-fr="&#9889; &Eacute;lectro" data-en="&#9889; Electro">&#9889; &Eacute;lectro</button>
+      <button class="filter-btn dendro" data-filter="dendro"  data-fr="&#127807; Dendro" data-en="&#127807; Dendro">&#127807; Dendro</button>
+      <button class="filter-btn geo"    data-filter="geo"     data-fr="&#129704; G&eacute;o" data-en="&#129704; Geo">&#129704; G&eacute;o</button>
+      <button class="filter-btn anemo"  data-filter="anemo"   data-fr="&#127783;&#65039; Anemo" data-en="&#127783;&#65039; Anemo">&#127783;&#65039; Anemo</button>
+    </div>
+
+    <div class="perso-category fade-in">
+      <h3 class="cat-title" style="border-color:#ffd166;color:#ffd166" data-fr="&#10022; Archons" data-en="&#10022; Archons">&#10022; Archons</h3>
+      <div class="perso-grid">
+        <a href="venti.html"     class="perso-card anemo"   data-element="anemo"   onclick="trackVisit('Venti')">    <span class="elem-badge anemo-bg">&#127783;&#65039;</span><p>Venti</p>        <img src="image/Venti_carte.webp"                     alt="Venti"         loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="zhongli.html"   class="perso-card geo"     data-element="geo"     onclick="trackVisit('Zhongli')">  <span class="elem-badge geo-bg">&#129704;</span><p>Zhongli</p>      <img src="image/Zhongli_Card.webp"                    alt="Zhongli"       loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="raiden.html"    class="perso-card electro" data-element="electro" onclick="trackVisit('Raiden')">   <span class="elem-badge electro-bg">&#9889;</span><p>Raiden Shogun</p><img src="image/Shogun_Raiden_carte.webp"           alt="Raiden"        loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="Nahida.html"    class="perso-card dendro"  data-element="dendro"  onclick="trackVisit('Nahida')">   <span class="elem-badge dendro-bg">&#127807;</span><p>Nahida</p>      <img src="image/Nahida_carte.jpg"                     alt="Nahida"        loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="furina.html"    class="perso-card hydro"   data-element="hydro"   onclick="trackVisit('Furina')">   <span class="elem-badge hydro-bg">&#128167;</span><p>Furina</p>       <img src="image/Furina_carte_2.webp"                  alt="Furina"        loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="mavuika.html"   class="perso-card pyro"    data-element="pyro"    onclick="trackVisit('Mavuika')">  <span class="elem-badge pyro-bg">&#128293;</span><p>Mavuika</p>      <img src="image/Mavuika_carte.webp"                   alt="Mavuika"       loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="columbina.html" class="perso-card cryo"    data-element="cryo"    onclick="trackVisit('Columbina')"><span class="elem-badge cryo-bg">&#10052;&#65039;</span><p>Columbina</p>  <img src="image/drew-columbina-v0-h7hz8w2c8fdf1.webp" alt="Columbina"     loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+      </div>
+    </div>
+
+    <div class="perso-category fade-in">
+      <h3 class="cat-title cryo-title" data-fr="&#10052;&#65039; Personnages Cryo" data-en="&#10052;&#65039; Cryo Characters">&#10052;&#65039; Personnages Cryo</h3>
+      <div class="perso-grid">
+        <a href="ganyu.html"       class="perso-card cryo" data-element="cryo" onclick="trackVisit('Ganyu')">      <span class="elem-badge cryo-bg">&#10052;&#65039;</span><p>Ganyu</p>       <img src="image/ganyu.webp"      alt="Ganyu"       loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="eula.html"        class="perso-card cryo" data-element="cryo" onclick="trackVisit('Eula')">       <span class="elem-badge cryo-bg">&#10052;&#65039;</span><p>Eula</p>        <img src="image/eula.webp"       alt="Eula"        loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="ayaka.html"       class="perso-card cryo" data-element="cryo" onclick="trackVisit('Ayaka')">      <span class="elem-badge cryo-bg">&#10052;&#65039;</span><p>Ayaka</p>       <img src="image/ayaka.webp"      alt="Ayaka"       loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="shenhe.html"      class="perso-card cryo" data-element="cryo" onclick="trackVisit('Shenhe')">     <span class="elem-badge cryo-bg">&#10052;&#65039;</span><p>Shenhe</p>      <img src="image/shenhe.webp"     alt="Shenhe"      loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="wriothesley.html" class="perso-card cryo" data-element="cryo" onclick="trackVisit('Wriothesley')"><span class="elem-badge cryo-bg">&#10052;&#65039;</span><p>Wriothesley</p><img src="image/rizly.webp"      alt="Wriothesley" loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="layla.html"       class="perso-card cryo" data-element="cryo" onclick="trackVisit('Layla')">      <span class="elem-badge cryo-bg">&#10052;&#65039;</span><p>Layla</p>       <img src="image/layla.webp"      alt="Layla"       loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="rosaria.html"     class="perso-card cryo" data-element="cryo" onclick="trackVisit('Rosaria')">    <span class="elem-badge cryo-bg">&#10052;&#65039;</span><p>Rosaria</p>     <img src="image/rosaria.webp"    alt="Rosaria"     loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="chongyun.html"    class="perso-card cryo" data-element="cryo" onclick="trackVisit('Chongyun')">   <span class="elem-badge cryo-bg">&#10052;&#65039;</span><p>Chongyun</p>    <img src="image/chongyun.webp"   alt="Chongyun"    loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+      </div>
+    </div>
+
+    <div class="perso-category fade-in">
+      <h3 class="cat-title pyro-title" data-fr="&#128293; Personnages Pyro" data-en="&#128293; Pyro Characters">&#128293; Personnages Pyro</h3>
+      <div class="perso-grid">
+        <a href="hutao.html"      class="perso-card pyro" data-element="pyro" onclick="trackVisit('Hu Tao')">    <span class="elem-badge pyro-bg">&#128293;</span><p>Hu Tao</p>      <img src="image/hutao1.webp"     alt="Hu Tao"     loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="yoimiya.html"    class="perso-card pyro" data-element="pyro" onclick="trackVisit('Yoimiya')">   <span class="elem-badge pyro-bg">&#128293;</span><p>Yoimiya</p>     <img src="image/yoimiya.webp"    alt="Yoimiya"    loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="diluc.html"      class="perso-card pyro" data-element="pyro" onclick="trackVisit('Diluc')">     <span class="elem-badge pyro-bg">&#128293;</span><p>Diluc</p>       <img src="image/diluc.webp"      alt="Diluc"      loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="arlecchino.html" class="perso-card pyro" data-element="pyro" onclick="trackVisit('Arlecchino')"><span class="elem-badge pyro-bg">&#128293;</span><p>Arlecchino</p>  <img src="image/arlecchino.webp" alt="Arlecchino" loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="lyney.html"      class="perso-card pyro" data-element="pyro" onclick="trackVisit('Lyney')">     <span class="elem-badge pyro-bg">&#128293;</span><p>Lyney</p>       <img src="image/lyney.webp"      alt="Lyney"      loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="xiangling.html"  class="perso-card pyro" data-element="pyro" onclick="trackVisit('Xiangling')"> <span class="elem-badge pyro-bg">&#128293;</span><p>Xiangling</p>   <img src="image/xiangling.webp"  alt="Xiangling"  loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="bennett.html"    class="perso-card pyro" data-element="pyro" onclick="trackVisit('Bennett')">   <span class="elem-badge pyro-bg">&#128293;</span><p>Bennett</p>     <img src="image/bennet.webp"     alt="Bennett"    loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="amber.html"      class="perso-card pyro" data-element="pyro" onclick="trackVisit('Amber')">     <span class="elem-badge pyro-bg">&#128293;</span><p>Amber</p>       <img src="image/amber.webp"      alt="Amber"      loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+      </div>
+    </div>
+
+    <div class="perso-category fade-in">
+      <h3 class="cat-title hydro-title" data-fr="&#128167; Personnages Hydro" data-en="&#128167; Hydro Characters">&#128167; Personnages Hydro</h3>
+      <div class="perso-grid">
+        <a href="neuvillette.html" class="perso-card hydro" data-element="hydro" onclick="trackVisit('Neuvillette')"><span class="elem-badge hydro-bg">&#128167;</span><p>Neuvillette</p>   <img src="image/neuvi.webp"     alt="Neuvillette" loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="ayato.html"       class="perso-card hydro" data-element="hydro" onclick="trackVisit('Ayato')">      <span class="elem-badge hydro-bg">&#128167;</span><p>Kamisato Ayato</p><img src="image/ayato.webp"     alt="Ayato"       loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="yelan.html"       class="perso-card hydro" data-element="hydro" onclick="trackVisit('Yelan')">      <span class="elem-badge hydro-bg">&#128167;</span><p>Yelan</p>          <img src="image/yelan.webp"     alt="Yelan"       loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="tartaglia.html"   class="perso-card hydro" data-element="hydro" onclick="trackVisit('Tartaglia')">  <span class="elem-badge hydro-bg">&#128167;</span><p>Tartaglia</p>      <img src="image/tarta.webp"     alt="Tartaglia"   loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="nilou.html"       class="perso-card hydro" data-element="hydro" onclick="trackVisit('Nilou')">      <span class="elem-badge hydro-bg">&#128167;</span><p>Nilou</p>          <img src="image/nilou.webp"     alt="Nilou"       loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="sigewinne.html"   class="perso-card hydro" data-element="hydro" onclick="trackVisit('Sigewinne')">  <span class="elem-badge hydro-bg">&#128167;</span><p>Sigewinne</p>      <img src="image/sigewinne.webp" alt="Sigewinne"   loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="xingqiu.html"     class="perso-card hydro" data-element="hydro" onclick="trackVisit('Xingqiu')">    <span class="elem-badge hydro-bg">&#128167;</span><p>Xingqiu</p>        <img src="image/xingqiu.webp"   alt="Xingqiu"     loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="barbara.html"     class="perso-card hydro" data-element="hydro" onclick="trackVisit('Barbara')">    <span class="elem-badge hydro-bg">&#128167;</span><p>Barbara</p>        <img src="image/barbara.webp"   alt="Barbara"     loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+      </div>
+    </div>
+
+    <div class="perso-category fade-in">
+      <h3 class="cat-title electro-title" data-fr="&#9889; Personnages &Eacute;lectro" data-en="&#9889; Electro Characters">&#9889; Personnages &Eacute;lectro</h3>
+      <div class="perso-grid">
+        <a href="yaemiko.html"  class="perso-card electro" data-element="electro" onclick="trackVisit('Yae Miko')"> <span class="elem-badge electro-bg">&#9889;</span><p>Yae Miko</p> <img src="image/yae.webp"      alt="Yae Miko" loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="clorinde.html" class="perso-card electro" data-element="electro" onclick="trackVisit('Clorinde')">  <span class="elem-badge electro-bg">&#9889;</span><p>Clorinde</p>  <img src="image/clorinde.webp" alt="Clorinde" loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="keqing.html"   class="perso-card electro" data-element="electro" onclick="trackVisit('Keqing')">    <span class="elem-badge electro-bg">&#9889;</span><p>Keqing</p>    <img src="image/keqing.webp"   alt="Keqing"   loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="cyno.html"     class="perso-card electro" data-element="electro" onclick="trackVisit('Cyno')">      <span class="elem-badge electro-bg">&#9889;</span><p>Cyno</p>      <img src="image/cyno.webp"     alt="Cyno"     loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="fischl.html"   class="perso-card electro" data-element="electro" onclick="trackVisit('Fischl')">    <span class="elem-badge electro-bg">&#9889;</span><p>Fischl</p>    <img src="image/fischl.webp"   alt="Fischl"   loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="beidou.html"   class="perso-card electro" data-element="electro" onclick="trackVisit('Beidou')">    <span class="elem-badge electro-bg">&#9889;</span><p>Beidou</p>    <img src="image/beidou.webp"   alt="Beidou"   loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="razor.html"    class="perso-card electro" data-element="electro" onclick="trackVisit('Razor')">     <span class="elem-badge electro-bg">&#9889;</span><p>Razor</p>     <img src="image/razor.webp"    alt="Razor"    loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+      </div>
+    </div>
+
+    <div class="perso-category fade-in">
+      <h3 class="cat-title dendro-title" data-fr="&#127807; Personnages Dendro" data-en="&#127807; Dendro Characters">&#127807; Personnages Dendro</h3>
+      <div class="perso-grid">
+        <a href="alhaitham.html" class="perso-card dendro" data-element="dendro" onclick="trackVisit('Alhaitham')"><span class="elem-badge dendro-bg">&#127807;</span><p>Alhaitham</p><img src="image/alhaitham.webp" alt="Alhaitham" loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="tighnari.html"  class="perso-card dendro" data-element="dendro" onclick="trackVisit('Tighnari')"> <span class="elem-badge dendro-bg">&#127807;</span><p>Tighnari</p> <img src="image/tighnari.webp"  alt="Tighnari"  loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="baizhu.html"    class="perso-card dendro" data-element="dendro" onclick="trackVisit('Baizhu')">   <span class="elem-badge dendro-bg">&#127807;</span><p>Baizhu</p>   <img src="image/baizhu.webp"    alt="Baizhu"    loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="emilie.html"    class="perso-card dendro" data-element="dendro" onclick="trackVisit('Emilie')">   <span class="elem-badge dendro-bg">&#127807;</span><p>Emilie</p>   <img src="image/emilie.webp"    alt="Emilie"    loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="collei.html"    class="perso-card dendro" data-element="dendro" onclick="trackVisit('Collei')">   <span class="elem-badge dendro-bg">&#127807;</span><p>Collei</p>   <img src="image/collei.webp"    alt="Collei"    loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="kaveh.html"     class="perso-card dendro" data-element="dendro" onclick="trackVisit('Kaveh')">    <span class="elem-badge dendro-bg">&#127807;</span><p>Kaveh</p>    <img src="image/kaveh.webp"     alt="Kaveh"     loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="kirara.html"    class="perso-card dendro" data-element="dendro" onclick="trackVisit('Kirara')">   <span class="elem-badge dendro-bg">&#127807;</span><p>Kirara</p>   <img src="image/kirara.webp"    alt="Kirara"    loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="yaoyao.html"    class="perso-card dendro" data-element="dendro" onclick="trackVisit('Yaoyao')">   <span class="elem-badge dendro-bg">&#127807;</span><p>Yaoyao</p>   <img src="image/yaoyao.webp"    alt="Yaoyao"    loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+      </div>
+    </div>
+
+    <div class="perso-category fade-in">
+      <h3 class="cat-title geo-title" data-fr="&#129704; Personnages G&eacute;o" data-en="&#129704; Geo Characters">&#129704; Personnages G&eacute;o</h3>
+      <div class="perso-grid">
+        <a href="albedo.html"    class="perso-card geo" data-element="geo" onclick="trackVisit('Albedo')">     <span class="elem-badge geo-bg">&#129704;</span><p>Albedo</p>       <img src="image/albedo.webp"    alt="Albedo"    loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="itto.html"      class="perso-card geo" data-element="geo" onclick="trackVisit('Itto')">       <span class="elem-badge geo-bg">&#129704;</span><p>Arataki Itto</p> <img src="image/itto1.webp"     alt="Itto"      loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="navia.html"     class="perso-card geo" data-element="geo" onclick="trackVisit('Navia')">      <span class="elem-badge geo-bg">&#129704;</span><p>Navia</p>        <img src="image/navia.webp"     alt="Navia"     loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="chiori.html"    class="perso-card geo" data-element="geo" onclick="trackVisit('Chiori')">     <span class="elem-badge geo-bg">&#129704;</span><p>Chiori</p>       <img src="image/chiori.webp"    alt="Chiori"    loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="noelle.html"    class="perso-card geo" data-element="geo" onclick="trackVisit('Noelle')">     <span class="elem-badge geo-bg">&#129704;</span><p>Noelle</p>       <img src="image/noelle.webp"    alt="Noelle"    loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="ningguang.html" class="perso-card geo" data-element="geo" onclick="trackVisit('Ningguang')">  <span class="elem-badge geo-bg">&#129704;</span><p>Ningguang</p>    <img src="image/ningguang.webp" alt="Ningguang" loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="gorou.html"     class="perso-card geo" data-element="geo" onclick="trackVisit('Gorou')">      <span class="elem-badge geo-bg">&#129704;</span><p>Gorou</p>        <img src="image/gorou.webp"     alt="Gorou"     loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="yunjin.html"    class="perso-card geo" data-element="geo" onclick="trackVisit('Yun Jin')">    <span class="elem-badge geo-bg">&#129704;</span><p>Yun Jin</p>      <img src="image/yunjin.webp"    alt="Yun Jin"   loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+      </div>
+    </div>
+
+    <div class="perso-category fade-in">
+      <h3 class="cat-title anemo-title" data-fr="&#127783;&#65039; Personnages Anemo" data-en="&#127783;&#65039; Anemo Characters">&#127783;&#65039; Personnages Anemo</h3>
+      <div class="perso-grid">
+        <a href="kazuha.html"   class="perso-card anemo" data-element="anemo" onclick="trackVisit('Kazuha')">  <span class="elem-badge anemo-bg">&#127783;&#65039;</span><p>Kaedehara Kazuha</p><img src="image/kazuha.webp"   alt="Kazuha"  loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="wanderer.html" class="perso-card anemo" data-element="anemo" onclick="trackVisit('Wanderer')"><span class="elem-badge anemo-bg">&#127783;&#65039;</span><p>Wanderer</p>          <img src="image/wanderer.webp" alt="Wanderer" loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="jean.html"     class="perso-card anemo" data-element="anemo" onclick="trackVisit('Jean')">    <span class="elem-badge anemo-bg">&#127783;&#65039;</span><p>Jean</p>             <img src="image/jean.webp"     alt="Jean"    loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="xiao.html"     class="perso-card anemo" data-element="anemo" onclick="trackVisit('Xiao')">    <span class="elem-badge anemo-bg">&#127783;&#65039;</span><p>Xiao</p>             <img src="image/xiao.webp"     alt="Xiao"    loading="lazy"/><span class="rarity five">&#11088;&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="lynette.html"  class="perso-card anemo" data-element="anemo" onclick="trackVisit('Lynette')"> <span class="elem-badge anemo-bg">&#127783;&#65039;</span><p>Lynette</p>          <img src="image/lynette.webp"  alt="Lynette" loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="sayu.html"     class="perso-card anemo" data-element="anemo" onclick="trackVisit('Sayu')">    <span class="elem-badge anemo-bg">&#127783;&#65039;</span><p>Sayu</p>             <img src="image/sayu.webp"     alt="Sayu"    loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="sucrose.html"  class="perso-card anemo" data-element="anemo" onclick="trackVisit('Sucrose')"> <span class="elem-badge anemo-bg">&#127783;&#65039;</span><p>Sucrose</p>          <img src="image/sucrose.webp"  alt="Sucrose" loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+        <a href="faruzan.html"  class="perso-card anemo" data-element="anemo" onclick="trackVisit('Faruzan')"> <span class="elem-badge anemo-bg">&#127783;&#65039;</span><p>Faruzan</p>          <img src="image/faruzan.webp"  alt="Faruzan" loading="lazy"/><span class="rarity four">&#11088;&#11088;&#11088;&#11088;</span></a>
+      </div>
+    </div>
+
+    <div class="ranking-section fade-in">
+      <h3 data-fr="&#127942; Personnages les plus consult&eacute;s" data-en="&#127942; Most Visited Characters">&#127942; Personnages les plus consult&eacute;s</h3>
+      <div id="ranking-list"></div>
+    </div>
+  </section>
+
+  <section id="regions" class="regions-section fade-in">
+    <h2 data-fr="&#128506;&#65039; Les R&eacute;gions de Teyvat" data-en="&#128506;&#65039; Regions of Teyvat">&#128506;&#65039; Les R&eacute;gions de Teyvat</h2>
+    <div class="regions-grid">
+      <div class="region-card mondstadt"><div class="region-icon">&#127811;</div><h3>Mondstadt</h3><p class="region-element anemo-text">Anemo &bull; Barbatos</p><p data-fr="La cit&eacute; du vent. Terre de libert&eacute;, de musique et de bons vins." data-en="The city of wind. A land of freedom, music and fine wine.">La cit&eacute; du vent. Terre de libert&eacute;, de musique et de bons vins.</p><div class="region-tag">v1.0</div></div>
+      <div class="region-card liyue">   <div class="region-icon">&#9968;&#65039;</div><h3>Liyue</h3>   <p class="region-element geo-text">G&eacute;o &bull; Morax</p><p data-fr="Le port du commerce. Terre des contrats, de la pierre et de la tradition." data-en="The harbor of commerce. A land of contracts, stone, and tradition.">Le port du commerce. Terre des contrats, de la pierre et de la tradition.</p><div class="region-tag">v1.0</div></div>
+      <div class="region-card inazuma"><div class="region-icon">&#9889;</div><h3>Inazuma</h3><p class="region-element electro-text">Electro &bull; Raiden</p><p data-fr="L&apos;archipel isol&eacute;. Nation de l&apos;&eacute;ternit&eacute; gouvern&eacute;e d&apos;une main de fer." data-en="The isolated archipelago. Nation of eternity ruled with an iron fist.">L&apos;archipel isol&eacute;. Nation de l&apos;&eacute;ternit&eacute; gouvern&eacute;e d&apos;une main de fer.</p><div class="region-tag">v2.0</div></div>
+      <div class="region-card sumeru"> <div class="region-icon">&#127807;</div><h3>Sumeru</h3>  <p class="region-element dendro-text">Dendro &bull; Nahida</p><p data-fr="La nation de la sagesse. For&ecirc;ts luxuriantes et d&eacute;serts myst&eacute;rieux." data-en="The nation of wisdom. Lush forests and mysterious deserts.">La nation de la sagesse. For&ecirc;ts luxuriantes et d&eacute;serts myst&eacute;rieux.</p><div class="region-tag">v3.0</div></div>
+      <div class="region-card fontaine"><div class="region-icon">&#128167;</div><h3>Fontaine</h3><p class="region-element hydro-text">Hydro &bull; Furina</p><p data-fr="La nation de la justice. Cit&eacute; sous-marine de lois et d&apos;op&eacute;ra." data-en="The nation of justice. An underwater city of law and opera.">La nation de la justice. Cit&eacute; sous-marine de lois et d&apos;op&eacute;ra.</p><div class="region-tag">v4.0</div></div>
+      <div class="region-card natlan">  <div class="region-icon">&#128293;</div><h3>Natlan</h3>  <p class="region-element pyro-text">Pyro &bull; Mavuika</p><p data-fr="La nation de la guerre. Guerriers intr&eacute;pides et flammes eternelles." data-en="The nation of war. Fearless warriors and eternal flames.">La nation de la guerre. Guerriers intr&eacute;pides et flammes eternelles.</p><div class="region-tag">v5.0</div></div>
+      <div class="region-card snezhnaya"><div class="region-icon">&#10052;&#65039;</div><h3>Snezhnaya</h3><p class="region-element cryo-text">Cryo &bull; ???</p><p data-fr="La nation myst&eacute;rieuse du nord. Base de la Fatui. L&apos;Archon reste dans l&apos;ombre." data-en="The mysterious northern nation. Home of the Fatui. The Archon remains in the shadows.">La nation myst&eacute;rieuse du nord. Base de la Fatui. L&apos;Archon reste dans l&apos;ombre.</p><div class="region-tag" data-fr="&Agrave; venir" data-en="Coming soon">&Agrave; venir</div></div>
+    </div>
+  </section>
+
+  <section id="quiz" class="quiz-section fade-in">
+    <h2 data-fr="&#127919; Quiz Genshin Impact" data-en="&#127919; Genshin Impact Quiz">&#127919; Quiz Genshin Impact</h2>
+    <p class="quiz-intro" data-fr="Testez vos connaissances sur le monde de Teyvat !" data-en="Test your knowledge of the world of Teyvat!">Testez vos connaissances sur le monde de Teyvat !</p>
+    <div id="quiz-container">
+      <div id="quiz-progress-wrap"><div id="quiz-progress-bar"></div></div>
+      <div id="quiz-question-num"></div>
+      <div id="quiz-question"></div>
+      <div id="quiz-choices"></div>
+      <div id="quiz-feedback"></div>
+      <button id="quiz-next-btn" onclick="nextQuestion()" style="display:none" data-fr="Question suivante &rarr;" data-en="Next question &rarr;">Question suivante &rarr;</button>
+    </div>
+    <div id="quiz-result" style="display:none">
+      <div id="quiz-score-display"></div>
+      <p id="quiz-comment"></p>
+      <button onclick="restartQuiz()" data-fr="&#128260; Recommencer" data-en="&#128260; Restart">&#128260; Recommencer</button>
+    </div>
+  </section>
+
+  <section id="avis" class="avis-section fade-in">
+    <h2 data-fr="&#128172; Avis de la communaut&eacute;" data-en="&#128172; Community Reviews">&#128172; Avis de la communaut&eacute;</h2>
+    <div class="avis-layout">
+      <div class="avis-form-box">
+        <h3 data-fr="&#9997;&#65039; Laisser un avis" data-en="&#9997;&#65039; Leave a review">&#9997;&#65039; Laisser un avis</h3>
+        <div class="form-group"><label data-fr="Votre pseudo" data-en="Your username">Votre pseudo</label><input type="text" id="avis-pseudo" placeholder="Ex : TeyvatExplorer" maxlength="30"/></div>
+        <div class="form-group">
+          <label data-fr="Note globale" data-en="Overall rating">Note globale</label>
+          <div class="star-rating" id="star-rating"><span data-val="1">&#9733;</span><span data-val="2">&#9733;</span><span data-val="3">&#9733;</span><span data-val="4">&#9733;</span><span data-val="5">&#9733;</span></div>
+          <span id="star-label" data-fr="Cliquez pour noter" data-en="Click to rate">Cliquez pour noter</span>
+        </div>
+        <div class="form-group">
+          <label data-fr="Personnage pr&eacute;f&eacute;r&eacute;" data-en="Favourite character">Personnage pr&eacute;f&eacute;r&eacute;</label>
+          <select id="avis-perso">
+            <option value="" data-fr="-- Choisir --" data-en="-- Choose --">-- Choisir --</option>
+            <option>Venti</option><option>Zhongli</option><option>Raiden Shogun</option><option>Nahida</option>
+            <option>Furina</option><option>Mavuika</option><option>Columbina</option><option>Ganyu</option>
+            <option>Hu Tao</option><option>Kazuha</option><option>Ayaka</option><option>Tartaglia</option>
+            <option>Alhaitham</option><option>Neuvillette</option><option>Arlecchino</option>
+            <option data-fr="Autre" data-en="Other">Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label data-fr="Votre avis" data-en="Your review">Votre avis</label>
+          <textarea id="avis-texte" placeholder="Partagez votre exp&eacute;rience&hellip;" maxlength="300" rows="4"></textarea>
+          <span id="char-count">0 / 300</span>
+        </div>
+        <button class="submit-btn" onclick="submitAvis()" data-fr="&#128232; Publier mon avis" data-en="&#128232; Post my review">&#128232; Publier mon avis</button>
+      </div>
+      <div class="avis-list-box">
+        <h3 data-fr="&#128203; Avis r&eacute;cents" data-en="&#128203; Recent reviews">&#128203; Avis r&eacute;cents</h3>
+        <div id="avis-stats"></div>
+        <div id="avis-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="news" class="news-section fade-in">
+    <h2 data-fr="&#128240; Actualit&eacute;s &amp; Patch Notes" data-en="&#128240; News &amp; Patch Notes">&#128240; Actualit&eacute;s &amp; Patch Notes</h2>
+    <div class="news-grid">
+      <article class="news-card featured">
+        <div class="news-badge" data-fr="&#128293; Nouveau" data-en="&#128293; New">&#128293; Nouveau</div>
+        <h3 data-fr="Version 5.5 &mdash; Natlan, Acte II" data-en="Version 5.5 &mdash; Natlan, Act II">Version 5.5 &mdash; Natlan, Acte II</h3>
+        <p class="news-date">&#128197; Mars 2025</p>
+        <p data-fr="Nouvelles qu&ecirc;tes, nouvelle zone explorable et deux nouveaux personnages jouables dans la suite de l&apos;histoire de Natlan." data-en="New quests, a new explorable area, and two new playable characters in the continuation of the Natlan storyline.">Nouvelles qu&ecirc;tes, nouvelle zone explorable et deux nouveaux personnages jouables dans la suite de l&apos;histoire de Natlan.</p>
+        <div class="news-tags"><span class="tag" data-fr="Mise &agrave; jour" data-en="Update">Mise &agrave; jour</span><span class="tag">Natlan</span><span class="tag" data-fr="Histoire" data-en="Story">Histoire</span></div>
+      </article>
+      <article class="news-card">
+        <div class="news-badge">&#11088; Banner</div>
+        <h3 data-fr="Reruns : Hu Tao &amp; Yelan" data-en="Reruns: Hu Tao &amp; Yelan">Reruns : Hu Tao &amp; Yelan</h3>
+        <p class="news-date">&#128197; F&eacute;vrier 2025</p>
+        <p data-fr="Les banners de Hu Tao et Yelan font leur retour pour une dur&eacute;e limit&eacute;e." data-en="Hu Tao and Yelan's banners are making a limited-time comeback.">Les banners de Hu Tao et Yelan font leur retour pour une dur&eacute;e limit&eacute;e.</p>
+        <div class="news-tags"><span class="tag">Banner</span><span class="tag">Gacha</span></div>
+      </article>
+      <article class="news-card">
+        <div class="news-badge" data-fr="&#127914; &Eacute;v&eacute;nement" data-en="&#127914; Event">&#127914; &Eacute;v&eacute;nement</div>
+        <h3 data-fr="Festival des Lanternes 2025" data-en="Lantern Rite Festival 2025">Festival des Lanternes 2025</h3>
+        <p class="news-date">&#128197; F&eacute;vrier 2025</p>
+        <p data-fr="Le festival annuel de Liyue revient avec de nouvelles r&eacute;compenses et un personnage 4&#9733; gratuit." data-en="Liyue's annual festival returns with new rewards and a free 4&#9733; character.">Le festival annuel de Liyue revient avec de nouvelles r&eacute;compenses et un personnage 4&#9733; gratuit.</p>
+        <div class="news-tags"><span class="tag" data-fr="&Eacute;v&eacute;nement" data-en="Event">&Eacute;v&eacute;nement</span><span class="tag">Liyue</span></div>
+      </article>
+      <article class="news-card">
+        <div class="news-badge" data-fr="&#128506;&#65039; R&eacute;gion" data-en="&#128506;&#65039; Region">&#128506;&#65039; R&eacute;gion</div>
+        <h3 data-fr="Snezhnaya : premi&egrave;res infos" data-en="Snezhnaya: first details">Snezhnaya : premi&egrave;res infos</h3>
+        <p class="news-date">&#128197; Janvier 2025</p>
+        <p data-fr="miHoYo l&egrave;ve le voile sur Snezhnaya, la derni&egrave;re nation encore inexplor&eacute;e de Teyvat." data-en="miHoYo lifts the veil on Snezhnaya, the last unexplored nation of Teyvat.">miHoYo l&egrave;ve le voile sur Snezhnaya, la derni&egrave;re nation encore inexplor&eacute;e de Teyvat.</p>
+        <div class="news-tags"><span class="tag">Snezhnaya</span><span class="tag">Lore</span></div>
+      </article>
+      <article class="news-card">
+        <div class="news-badge" data-fr="&#128142; Primo" data-en="&#128142; Primo">&#128142; Primo</div>
+        <h3 data-fr="Code Promo &mdash; 60 Primogemmes" data-en="Promo Code &mdash; 60 Primogems">Code Promo &mdash; 60 Primogemmes</h3>
+        <p class="news-date">&#128197; Janvier 2025</p>
+        <p data-fr="Un nouveau code promo offre 60 primogemmes gratuites. &Agrave; utiliser avant expiration !" data-en="A new promo code grants 60 free Primogems. Use it before it expires!">Un nouveau code promo offre 60 primogemmes gratuites. &Agrave; utiliser avant expiration !</p>
+        <div class="news-tags"><span class="tag">Code</span><span class="tag" data-fr="Primogemmes" data-en="Primogems">Primogemmes</span></div>
+      </article>
+      <article class="news-card">
+        <div class="news-badge" data-fr="&#127918; Gameplay" data-en="&#127918; Gameplay">&#127918; Gameplay</div>
+        <h3 data-fr="Nouveau syst&egrave;me de Natlan" data-en="Natlan's New Gameplay System">Nouveau syst&egrave;me de Natlan</h3>
+        <p class="news-date">&#128197; D&eacute;cembre 2024</p>
+        <p data-fr="Natlan introduit le Phlogiston et les animaux natlanais pour un gameplay in&eacute;dit." data-en="Natlan introduces Phlogiston and Natlan creatures for an entirely new gameplay experience.">Natlan introduit le Phlogiston et les animaux natlanais pour un gameplay in&eacute;dit.</p>
+        <div class="news-tags"><span class="tag">Gameplay</span><span class="tag">Natlan</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ABOUT / A PROPOS (section projet) -->
+  <section id="about" class="fade-in">
+    <div id="about-box">
+      <h2 data-fr="&#8505;&#65039; &Agrave; propos du projet" data-en="&#8505;&#65039; About this project">&#8505;&#65039; &Agrave; propos du projet</h2>
+      <p data-fr="Ce site est un wiki fan non officiel d&eacute;di&eacute; &agrave; Genshin Impact, cr&eacute;&eacute; dans le cadre d&apos;un projet scolaire. Il a &eacute;t&eacute; enti&egrave;rement con&ccedil;u et d&eacute;velopp&eacute; en HTML, CSS et JavaScript vanille." data-en="This website is an unofficial fan wiki dedicated to Genshin Impact, created as part of a school project. It was entirely designed and built using vanilla HTML, CSS, and JavaScript.">Ce site est un wiki fan non officiel d&eacute;di&eacute; &agrave; Genshin Impact, cr&eacute;&eacute; dans le cadre d&apos;un projet scolaire. Il a &eacute;t&eacute; enti&egrave;rement con&ccedil;u et d&eacute;velopp&eacute; en HTML, CSS et JavaScript vanille.</p>
+      <div class="about-grid">
+        <div class="about-card"><h4 data-fr="&#127912; Design" data-en="&#127912; Design">&#127912; Design</h4><p data-fr="Interface th&eacute;matique avec typographies Cinzel et Lato, palette dor&eacute;e inspir&eacute;e du jeu, animations CSS et effets visuels au scroll." data-en="Themed interface using Cinzel and Lato fonts, gold palette inspired by the game, CSS animations and scroll-triggered visual effects.">Interface th&eacute;matique avec typographies Cinzel et Lato, palette dor&eacute;e inspir&eacute;e du jeu, animations CSS et effets visuels au scroll.</p></div>
+        <div class="about-card"><h4 data-fr="&#9881;&#65039; Fonctionnalit&eacute;s" data-en="&#9881;&#65039; Features">&#9881;&#65039; Fonctionnalit&eacute;s</h4><p data-fr="Filtres par &eacute;l&eacute;ment, barre de recherche, quiz interactif, syst&egrave;me d&apos;avis avec notes, classement des personnages, musique d&apos;ambiance, particules anim&eacute;es." data-en="Element filters, search bar, interactive quiz, star-rated review system, character ranking, background music, animated particles.">Filtres par &eacute;l&eacute;ment, barre de recherche, quiz interactif, syst&egrave;me d&apos;avis avec notes, classement des personnages, musique d&apos;ambiance, particules anim&eacute;es.</p></div>
+        <div class="about-card"><h4 data-fr="&#127760; Bilingue" data-en="&#127760; Bilingual">&#127760; Bilingue</h4><p data-fr="Le site est disponible en fran&ccedil;ais et en anglais gr&acirc;ce &agrave; un syst&egrave;me de traduction dynamique sans rechargement de page." data-en="The site is available in French and English thanks to a dynamic translation system with no page reload required.">Le site est disponible en fran&ccedil;ais et en anglais gr&acirc;ce &agrave; un syst&egrave;me de traduction dynamique sans rechargement de page.</p></div>
+        <div class="about-card"><h4 data-fr="&#128241; Responsive" data-en="&#128241; Responsive">&#128241; Responsive</h4><p data-fr="Adapt&eacute; &agrave; tous les &eacute;crans &mdash; mobile, tablette et desktop &mdash; avec un menu burger et une grille flexible." data-en="Adapted to all screen sizes &mdash; mobile, tablet, and desktop &mdash; with a burger menu and a flexible grid layout.">Adapt&eacute; &agrave; tous les &eacute;crans &mdash; mobile, tablette et desktop &mdash; avec un menu burger et une grille flexible.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="sidebar fade-in">
+    <h2 data-fr="&#128276; Nouveaut&eacute;s" data-en="&#128276; Latest Updates">&#128276; Nouveaut&eacute;s</h2>
+    <ul>
+      <li><img src="image/image-2919.png" alt="Maj 6.0"/><div><strong data-fr="Maj 6.0 :" data-en="Update 6.0:">Maj 6.0 :</strong> <span data-fr="Nouvelle r&eacute;gion &laquo;&nbsp;Nod-Krai&nbsp;&raquo; disponible !" data-en="New region 'Nod-Krai' now available!">Nouvelle r&eacute;gion &laquo;&nbsp;Nod-Krai&nbsp;&raquo; disponible !</span></div></li>
+      <li><img src="image/faruzan.png" alt="Faruzan"/><div><strong data-fr="Nouveau personnage :" data-en="New character:">Nouveau personnage :</strong> <span>Faruzan</span></div></li>
+      <li><img src="image/festival-lanternes.png" alt="Festival"/><div><strong data-fr="&Eacute;v&eacute;nement :" data-en="Event:">&Eacute;v&eacute;nement :</strong> <span data-fr="Festival des lanternes jusqu&apos;au 30 septembre." data-en="Lantern Rite Festival until September 30th.">Festival des lanternes jusqu&apos;au 30 septembre.</span></div></li>
+    </ul>
+  </aside>
+
+  <footer>
+    <div class="footer-content">
+      <div data-fr="&#10022; Teyvat Wiki &mdash; Fan Site non officiel &#10022;" data-en="&#10022; Teyvat Wiki &mdash; Unofficial Fan Site &#10022;">&#10022; Teyvat Wiki &mdash; Fan Site non officiel &#10022;</div>
+      <div class="footer-links">
+        <a href="#accueil"     data-fr="Accueil"     data-en="Home">Accueil</a> &middot;
+        <a href="#personnages" data-fr="Personnages" data-en="Characters">Personnages</a> &middot;
+        <a href="#regions"     data-fr="R&eacute;gions"   data-en="Regions">R&eacute;gions</a> &middot;
+        <a href="#quiz">Quiz</a> &middot;
+        <a href="#avis"        data-fr="Avis"        data-en="Reviews">Avis</a> &middot;
+        <a href="#about"       data-fr="&Agrave; propos" data-en="About">&Agrave; propos</a>
+      </div>
+      <div>&copy; 2025 &mdash; <span data-fr="Tous droits r&eacute;serv&eacute;s &agrave;" data-en="All rights reserved to">Tous droits r&eacute;serv&eacute;s &agrave;</span> miHoYo / HoYoverse</div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ══ TRADUCTION FR / EN ══ */
+let currentLang = localStorage.getItem('site_lang') || 'fr';
+function applyLang(lang) {
+  document.getElementById('html-root').lang = lang;
+  document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {
+    var val = el.getAttribute('data-' + lang);
+    if (el.tagName === 'INPUT' && el.type !== 'hidden') {
+      el.placeholder = val;
+    } else {
+      el.innerHTML = val;
+    }
+  });
+  var ph = { fr: '\uD83D\uDD0D Rechercher un perso\u2026', en: '\uD83D\uDD0D Search a character\u2026' };
+  document.getElementById('searchInput').placeholder = ph[lang];
+  var mb2 = document.getElementById('music-btn');
+  if (!playing) mb2.setAttribute('data-tooltip', lang === 'fr' ? 'Lancer la musique' : 'Play music');
+  document.getElementById('back-to-top').title = lang === 'fr' ? 'Retour en haut' : 'Back to top';
+}
+function toggleLang() {
+  currentLang = currentLang === 'fr' ? 'en' : 'fr';
+  localStorage.setItem('site_lang', currentLang);
+  document.getElementById('lang-flag').innerHTML = currentLang === 'fr' ? '&#127468;&#127463;' : '&#127467;&#127479;';
+  document.getElementById('lang-lbl').textContent  = currentLang === 'fr' ? 'EN' : 'FR';
+  applyLang(currentLang);
+  showToast(currentLang === 'en' ? '\uD83C\uDF10 Switched to English' : '\uD83C\uDF10 Pass\u00E9 en fran\u00E7ais');
+  renderRanking();
+  renderAvis();
+  startQuiz();
+  applyChatbotLang();
+}
+document.getElementById('lang-flag').innerHTML = currentLang === 'fr' ? '&#127468;&#127463;' : '&#127467;&#127479;';
+document.getElementById('lang-lbl').textContent  = currentLang === 'fr' ? 'EN' : 'FR';
+applyLang(currentLang);
+
+/* ── UTILITAIRES ── */
+function showToast(msg,dur){dur=dur||2800;var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},dur);}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ── BARRE DE CHARGEMENT ── */
+var pb=document.getElementById('progress-bar');var pv=0;
+var pi=setInterval(function(){pv+=Math.random()*14;if(pv>=100){pv=100;clearInterval(pi);setTimeout(function(){pb.style.opacity='0';},300);}pb.style.width=pv+'%';},80);
+
+/* ── PARTICULES ── */
+var cvs=document.getElementById('particles-canvas'),cx=cvs.getContext('2d');
+function resizeCvs(){cvs.width=window.innerWidth;cvs.height=window.innerHeight;}
+resizeCvs();
+var resizeTimer;window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(resizeCvs,150);});
+function P(){this.r();}
+P.prototype.r=function(){this.x=Math.random()*cvs.width;this.y=Math.random()*cvs.height;this.sz=Math.random()*2.5+.5;this.vx=(Math.random()-.5)*.35;this.vy=-(Math.random()*.45+.15);this.op=Math.random()*.45+.1;this.col=['#ffd166','#a0c4ff','#c8f5c8','#ffb4b4'][Math.floor(Math.random()*4)];};
+P.prototype.tick=function(){this.x+=this.vx;this.y+=this.vy;this.op-=.0007;if(this.y<-8||this.op<=0)this.r();};
+P.prototype.draw=function(){cx.save();cx.globalAlpha=this.op;cx.fillStyle=this.col;cx.shadowColor=this.col;cx.shadowBlur=5;cx.beginPath();cx.arc(this.x,this.y,this.sz,0,Math.PI*2);cx.fill();cx.restore();};
+var pts=[];for(var _i=0;_i<65;_i++)pts.push(new P());
+(function loop(){cx.clearRect(0,0,cvs.width,cvs.height);pts.forEach(function(p){p.tick();p.draw();});requestAnimationFrame(loop);})();
+
+/* ── FIX SCROLL ── */
+document.querySelectorAll('a[href="#"], a[href=""]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();});});
+
+/* ── PLACEHOLDER IMAGE ── */
+var PLACEHOLDER='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="200" style="background:%23111827"><text x="50%25" y="45%25" dominant-baseline="middle" text-anchor="middle" font-size="36">%F0%9F%8E%B4</text><text x="50%25" y="68%25" dominant-baseline="middle" text-anchor="middle" font-size="13" fill="%23888" font-family="sans-serif">Bient%C3%B4t</text></svg>';
+document.querySelectorAll('.perso-card img').forEach(function(img){img.removeAttribute('onerror');img.addEventListener('error',function(){if(this.src!==PLACEHOLDER)this.src=PLACEHOLDER;});});
+
+/* ── CURSEUR ── */
+var cur=document.getElementById('custom-cursor');
+document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
+document.addEventListener('mousedown',function(){cur.classList.add('clicking');});
+document.addEventListener('mouseup',function(){cur.classList.remove('clicking');});
+
+/* ── NAVBAR ── */
+var navbar=document.getElementById('navbar');
+var navLinks=document.querySelectorAll('.nav-link');
+window.addEventListener('scroll',function(){
+  navbar.classList.toggle('scrolled',scrollY>50);
+  document.getElementById('back-to-top').classList.toggle('show',scrollY>300);
+  var c='';
+  document.querySelectorAll('section[id]').forEach(function(s){if(scrollY>=s.offsetTop-120)c=s.id;});
+  navLinks.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+c);});
+});
+document.getElementById('back-to-top').addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'});});
+function toggleMobileMenu(){document.getElementById('mobile-menu').classList.toggle('open');}
+function closeMobileMenu(){document.getElementById('mobile-menu').classList.remove('open');}
+
+/* ── FADE IN ── */
+var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.06});
+document.querySelectorAll('.fade-in').forEach(function(el){io.observe(el);});
+
+/* ── FILTRES ── */
+document.querySelectorAll('.filter-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    var f=btn.dataset.filter;
+    document.querySelectorAll('.perso-card').forEach(function(c){c.style.display=(f==='all'||c.dataset.element===f)?'':'none';});
+    document.querySelectorAll('.perso-category').forEach(function(cat){
+      if(f==='all'){cat.style.display='';return;}
+      var visible=[].slice.call(cat.querySelectorAll('.perso-card')).some(function(c){return c.style.display!=='none';});
+      cat.style.display=visible?'':'none';
+    });
+  });
+});
+
+/* ── RECHERCHE ── */
+var charMap={"venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html","nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html","ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html","wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html","hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html","lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html"};
+function searchCharacter(){
+  var v=document.getElementById('searchInput').value.toLowerCase().trim();
+  var msgs={found:{fr:'\u2728 Redirection\u2026',en:'\u2728 Redirecting\u2026'},empty:{fr:'\u26A0\uFE0F Entrez un nom.',en:'\u26A0\uFE0F Enter a name.'},notfound:{fr:'\u274C Personnage introuvable !',en:'\u274C Character not found!'}};
+  if(charMap[v]){showToast(msgs.found[currentLang]);setTimeout(function(){location.href=charMap[v];},800);}
+  else if(!v){showToast(msgs.empty[currentLang]);}
+  else{showToast(msgs.notfound[currentLang]);}
+}
+document.getElementById('searchInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchCharacter();});
+
+/* ── CLASSEMENT ── */
+function trackVisit(name){var d=JSON.parse(localStorage.getItem('gv')||'{}');d[name]=(d[name]||0)+1;localStorage.setItem('gv',JSON.stringify(d));renderRanking();}
+function renderRanking(){
+  var d=JSON.parse(localStorage.getItem('gv')||'{}');
+  var s=Object.entries(d).sort(function(a,b){return b[1]-a[1];}).slice(0,5);
+  var el=document.getElementById('ranking-list');
+  var noVisit=currentLang==='fr'?"Aucune visite pour l\u2019instant \u2014 cliquez sur des personnages !":"No visits yet \u2014 click on some characters!";
+  var cw=currentLang==='fr'?'clic':'click';
+  if(!s.length){el.innerHTML='<p style="color:#aaa;text-align:center">'+noVisit+'</p>';return;}
+  el.innerHTML=s.map(function(e,i){return '<div class="rank-item"><span class="rank-pos">'+['\uD83E\uDD47','\uD83E\uDD48','\uD83E\uDD49','4\uFE0F\u20E3','5\uFE0F\u20E3'][i]+'</span><span class="rank-name">'+e[0]+'</span><span class="rank-bar-wrap"><span class="rank-bar" style="width:'+Math.round(e[1]/s[0][1]*100)+'%"></span></span><span class="rank-count">'+e[1]+' '+cw+(e[1]>1?'s':'')+'</span></div>';}).join('');
+}
+renderRanking();
+
+/* ── MUSIQUE ── */
+var mb=document.getElementById('music-btn'),mus=document.getElementById('bg-music');var playing=false;
+mb.addEventListener('click',function(){
+  var tips={play:{fr:'Lancer la musique',en:'Play music'},stop:{fr:'Stopper',en:'Stop'}};
+  var toasts={pause:{fr:'\uD83D\uDD07 Musique en pause',en:'\uD83D\uDD07 Music paused'},play:{fr:'\uD83C\uDFB5 Musique\u2026',en:'\uD83C\uDFB5 Music\u2026'},err:{fr:'\u26A0\uFE0F Ajoutez audio/genshin_theme.mp3',en:'\u26A0\uFE0F Add audio/genshin_theme.mp3'}};
+  if(playing){mus.pause();mb.textContent='\uD83C\uDFB5';mb.classList.remove('playing');mb.setAttribute('data-tooltip',tips.play[currentLang]);showToast(toasts.pause[currentLang]);}
+  else{mus.play().then(function(){mb.textContent='\uD83D\uDD0A';mb.classList.add('playing');mb.setAttribute('data-tooltip',tips.stop[currentLang]);showToast(toasts.play[currentLang]);}).catch(function(){showToast(toasts.err[currentLang]);});}
+  playing=!playing;
+});
+
+/* ── SESSION ── */
+var vs=parseInt(sessionStorage.getItem('gv_s')||'0')+1;sessionStorage.setItem('gv_s',vs);
+document.getElementById('visit-counter').textContent='\u2756 Session\u00A0: '+vs+' visite'+(vs>1?'s':'')+' \u2756';
+if(!sessionStorage.getItem('w')){sessionStorage.setItem('w','1');setTimeout(function(){showToast('\u2728 Bienvenue dans le monde de Teyvat !',3500);},1000);}
+
+/* ── QUIZ ── */
+var questionsData={
+  fr:[
+    {q:"Quel \u00E9l\u00E9ment ma\u00EEtrise Venti ?",choices:["Anemo","Geo","Hydro","Pyro"],a:0},
+    {q:"Quelle est la r\u00E9gion de Zhongli ?",choices:["Mondstadt","Liyue","Inazuma","Sumeru"],a:1},
+    {q:"Quel archon gouverne Inazuma ?",choices:["Nahida","Furina","Raiden Shogun","Venti"],a:2},
+    {q:"Quel \u00E9l\u00E9ment a \u00E9t\u00E9 ajout\u00E9 en version 3.0 ?",choices:["Dendro","Hydro","Cryo","Geo"],a:0},
+    {q:"Comment s'appelle la monnaie principale du jeu ?",choices:["Mora","Primo","Resin","Sigil"],a:0},
+    {q:"Quelle nation introduit le Phlogiston ?",choices:["Sumeru","Fontaine","Inazuma","Natlan"],a:3},
+    {q:"Quel personnage est la Seigneure de la Fantaisie ?",choices:["Ningguang","Furina","Navia","Ayaka"],a:1},
+    {q:"Dans quelle r\u00E9gion se trouve Mondstadt ?",choices:["Liyue","Mondstadt","Inazuma","Natlan"],a:1},
+    {q:"Quel \u00E9l\u00E9ment utilise Hu Tao ?",choices:["Hydro","Cryo","Pyro","Geo"],a:2},
+    {q:"Comment s'appelle l'organisation ennemie principale ?",choices:["Abyss Order","Fatui","Hilichurls","Treasure Hoarders"],a:1}
+  ],
+  en:[
+    {q:"Which element does Venti use?",choices:["Anemo","Geo","Hydro","Pyro"],a:0},
+    {q:"Which region is Zhongli from?",choices:["Mondstadt","Liyue","Inazuma","Sumeru"],a:1},
+    {q:"Which Archon rules Inazuma?",choices:["Nahida","Furina","Raiden Shogun","Venti"],a:2},
+    {q:"Which element was added in version 3.0?",choices:["Dendro","Hydro","Cryo","Geo"],a:0},
+    {q:"What is the main currency in the game?",choices:["Mora","Primo","Resin","Sigil"],a:0},
+    {q:"Which nation introduces Phlogiston?",choices:["Sumeru","Fontaine","Inazuma","Natlan"],a:3},
+    {q:"Which character is the Hydro Archon?",choices:["Ningguang","Furina","Navia","Ayaka"],a:1},
+    {q:"In which region is Mondstadt located?",choices:["Liyue","Mondstadt","Inazuma","Natlan"],a:1},
+    {q:"Which element does Hu Tao use?",choices:["Hydro","Cryo","Pyro","Geo"],a:2},
+    {q:"What is the main enemy organization called?",choices:["Abyss Order","Fatui","Hilichurls","Treasure Hoarders"],a:1}
+  ]
+};
+var qIdx=0,score=0,answered=false;
+function getQ(){return questionsData[currentLang];}
+function startQuiz(){qIdx=0;score=0;answered=false;document.getElementById('quiz-container').style.display='';document.getElementById('quiz-result').style.display='none';showQuestion();}
+function showQuestion(){
+  answered=false;var q=getQ()[qIdx];
+  document.getElementById('quiz-question-num').textContent='Question '+(qIdx+1)+' / '+getQ().length;
+  document.getElementById('quiz-question').textContent=q.q;
+  document.getElementById('quiz-progress-bar').style.width=((qIdx/getQ().length)*100)+'%';
+  document.getElementById('quiz-feedback').textContent='';document.getElementById('quiz-feedback').className='';
+  document.getElementById('quiz-next-btn').style.display='none';
+  document.getElementById('quiz-choices').innerHTML=q.choices.map(function(c,i){return '<button class="quiz-choice" onclick="checkAnswer('+i+'">'+c+'</button>';}).join('');
+  document.getElementById('quiz-choices').innerHTML=q.choices.map(function(c,i){return '<button class="quiz-choice" onclick="checkAnswer('+i+')">'+c+'</button>';}).join('');
+}
+function checkAnswer(i){
+  if(answered)return;answered=true;var q=getQ()[qIdx];
+  var btns=document.querySelectorAll('.quiz-choice');
+  btns.forEach(function(b,idx){b.disabled=true;if(idx===q.a)b.classList.add('correct');else if(idx===i)b.classList.add('wrong');});
+  var fb=document.getElementById('quiz-feedback');
+  if(i===q.a){score++;fb.textContent=currentLang==='fr'?'\u2705 Bonne r\u00E9ponse !':'\u2705 Correct!';fb.className='feedback-correct';}
+  else{fb.textContent=currentLang==='fr'?'\u274C Mauvaise r\u00E9ponse. Bonne r\u00E9ponse : '+q.choices[q.a]:'\u274C Wrong. Correct answer: '+q.choices[q.a];fb.className='feedback-wrong';}
+  document.getElementById('quiz-next-btn').style.display='';
+}
+function nextQuestion(){qIdx++;if(qIdx<getQ().length)showQuestion();else showResult();}
+function showResult(){
+  document.getElementById('quiz-container').style.display='none';document.getElementById('quiz-result').style.display='';
+  var pct=Math.round(score/getQ().length*100);
+  document.getElementById('quiz-score-display').innerHTML='<span class="score-big">'+score+'/'+getQ().length+'</span><br/><span class="score-pct">'+pct+'%</span>';
+  var comments={fr:['Tu d\u00E9butes ton voyage\u2026 Continue !','Pas mal, le Voyageur progresse !','Bon niveau, tu connais bien Teyvat !','Excellent ! Tu es un vrai explorateur !','Parfait ! Tu m\u00E9rites une Vision ! \u2728'],en:['You are just starting your journey\u2026 Keep going!','Not bad, the Traveler is improving!','Good level, you know Teyvat well!','Excellent! You are a true explorer!','Perfect! You deserve a Vision! \u2728']};
+  document.getElementById('quiz-comment').textContent=comments[currentLang][Math.min(4,Math.floor(pct/21))];
+  showToast(currentLang==='fr'?'\uD83C\uDFAF Quiz termin\u00E9 : '+score+'/'+getQ().length+' !':'\uD83C\uDFAF Quiz done: '+score+'/'+getQ().length+'!');
+}
+function restartQuiz(){startQuiz();}
+startQuiz();
+
+/* ── AVIS ── */
+var starValue=0;
+var stars=document.querySelectorAll('#star-rating span');
+stars.forEach(function(s){
+  s.addEventListener('mouseover',function(){hl(+s.dataset.val);});
+  s.addEventListener('mouseout',function(){hl(starValue);});
+  s.addEventListener('click',function(){
+    starValue=+s.dataset.val;hl(starValue);
+    var lbs={fr:['','Mauvais \uD83D\uDE1E','Bof \uD83D\uDE10','Bien \uD83D\uDE42','Tr\u00E8s bien \uD83D\uDE0A','Excellent ! \uD83C\uDF1F'],en:['','Bad \uD83D\uDE1E','Meh \uD83D\uDE10','Good \uD83D\uDE42','Very good \uD83D\uDE0A','Excellent! \uD83C\uDF1F']};
+    document.getElementById('star-label').textContent=lbs[currentLang][starValue];
+  });
+});
+function hl(n){stars.forEach(function(s,i){s.classList.toggle('active',i<n);});}
+document.getElementById('avis-texte').addEventListener('input',function(){document.getElementById('char-count').textContent=this.value.length+' / 300';});
+function submitAvis(){
+  var pseudo=document.getElementById('avis-pseudo').value.trim();
+  var texte=document.getElementById('avis-texte').value.trim();
+  var perso=document.getElementById('avis-perso').value;
+  var t={noPseudo:{fr:'\u26A0\uFE0F Entrez un pseudo !',en:'\u26A0\uFE0F Enter a username!'},noStar:{fr:'\u26A0\uFE0F Donnez une note !',en:'\u26A0\uFE0F Please give a rating!'},tooShort:{fr:'\u26A0\uFE0F Avis trop court (min 10 car.)',en:'\u26A0\uFE0F Review too short (min 10 chars).'},ok:{fr:'\u2705 Avis publi\u00E9, merci !',en:'\u2705 Review posted, thank you!'}};
+  if(!pseudo){showToast(t.noPseudo[currentLang]);return;}
+  if(!starValue){showToast(t.noStar[currentLang]);return;}
+  if(texte.length<10){showToast(t.tooShort[currentLang]);return;}
+  var avis=JSON.parse(localStorage.getItem('genshin_avis')||'[]');
+  avis.unshift({pseudo:pseudo,note:starValue,perso:perso||'\u2014',texte:texte,date:new Date().toLocaleDateString('fr-FR')});
+  localStorage.setItem('genshin_avis',JSON.stringify(avis.slice(0,50)));
+  document.getElementById('avis-pseudo').value='';document.getElementById('avis-texte').value='';document.getElementById('avis-perso').value='';
+  starValue=0;hl(0);
+  document.getElementById('star-label').textContent=currentLang==='fr'?'Cliquez pour noter':'Click to rate';
+  document.getElementById('char-count').textContent='0 / 300';
+  showToast(t.ok[currentLang],3000);renderAvis();
+}
+function renderAvis(){
+  var avis=JSON.parse(localStorage.getItem('genshin_avis')||'[]');
+  var list=document.getElementById('avis-list');var stats=document.getElementById('avis-stats');
+  var noAvis=currentLang==='fr'?"Soyez le premier \u00E0 donner votre avis !":"Be the first to leave a review!";
+  var favLabel=currentLang==='fr'?'\uD83D\uDC9C Perso pr\u00E9f\u00E9r\u00E9 : ':'\uD83D\uDC9C Favourite character: ';
+  if(!avis.length){list.innerHTML='<p style="color:#aaa;text-align:center">'+noAvis+'</p>';stats.innerHTML='';return;}
+  var avg=(avis.reduce(function(s,a){return s+a.note;},0)/avis.length).toFixed(1);
+  var avisWord=currentLang==='fr'?'avis':('review'+(avis.length>1?'s':''));
+  stats.innerHTML='<div class="avis-stats-row"><span class="avg-score">'+avg+'</span><span class="avg-stars">'+'\u2605'.repeat(Math.round(avg))+'\u2606'.repeat(5-Math.round(avg))+'</span><span class="avg-count">'+avis.length+' '+avisWord+'</span></div>';
+  list.innerHTML=avis.map(function(a){return '<div class="avis-card"><div class="avis-header"><strong>'+escHtml(a.pseudo)+'</strong><span class="avis-stars">'+'\u2605'.repeat(a.note)+'\u2606'.repeat(5-a.note)+'</span><span class="avis-date">'+a.date+'</span></div>'+(a.perso!=='\u2014'?'<div class="avis-perso-tag">'+favLabel+escHtml(a.perso)+'</div>':'')+'<p class="avis-texte">'+escHtml(a.texte)+'</p></div>';}).join('');
+}
+renderAvis();
+
+/* ── CHATBOT ── */
+var cbUI = {
+  fr: { title:'&#10022; Assistant Teyvat', placeholder:'Pose ta question\u2026', tooltip:'Assistant Teyvat',
+        greet:'&#10022; Salut, Voyageur ! Je suis l\u2019assistant du wiki. Demande-moi un personnage, une r\u00E9gion, ou pose une question sur Genshin Impact !',
+        chips:['Personnages','R\u00E9gions','Archons','Quiz'] },
+  en:  { title:'&#10022; Teyvat Assistant', placeholder:'Ask a question\u2026', tooltip:'Teyvat Assistant',
+        greet:'&#10022; Hello, Traveler! I\u2019m the wiki assistant. Ask me about a character, a region, or anything about Genshin Impact!',
+        chips:['Characters','Regions','Archons','Quiz'] }
+};
+var cbOpened = false, cbHistory = [];
+var elementEmoji = {anemo:'\uD83C\uDF43',geo:'\uD83E\uDEA8',electro:'\u26A1',dendro:'\uD83C\uDF3F',hydro:'\uD83D\uDCA7',pyro:'\uD83D\uDD25',cryo:'\u2744\uFE0F'};
+
+function cbNormalize(s){
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+}
+function buildCharDB(){
+  var db={};
+  document.querySelectorAll('.perso-card').forEach(function(card){
+    var pEl=card.querySelector('p'); if(!pEl)return;
+    var name=pEl.textContent.trim();
+    var element=card.dataset.element;
+    var rarityEl=card.querySelector('.rarity');
+    var rarity=(rarityEl && rarityEl.classList.contains('five'))?5:4;
+    db[cbNormalize(name)]={name:name,element:element,rarity:rarity,href:card.getAttribute('href')};
+  });
+  return db;
+}
+function buildRegionDB(){
+  var db={};
+  document.querySelectorAll('.region-card').forEach(function(card){
+    var h3=card.querySelector('h3'); if(!h3)return;
+    var name=h3.textContent.trim();
+    var elArchon=card.querySelector('.region-element');
+    var descEl=card.querySelector('p[data-fr]');
+    db[cbNormalize(name)]={
+      name:name,
+      elementArchon: elArchon?elArchon.textContent.trim():'',
+      desc: descEl?{fr:descEl.getAttribute('data-fr'),en:descEl.getAttribute('data-en')}:null
+    };
+  });
+  return db;
+}
+var charDB, regionDB;
+
+function appendChatMsg(text,who){
+  var box=document.getElementById('chatbot-messages');
+  var d=document.createElement('div');
+  d.className='cb-msg '+who;
+  d.innerHTML=text;
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+}
+function showTyping(){
+  var box=document.getElementById('chatbot-messages');
+  var d=document.createElement('div');
+  d.className='cb-msg bot cb-typing';
+  d.id='cb-typing-indicator';
+  d.innerHTML='<span></span><span></span><span></span>';
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+}
+function hideTyping(){
+  var t=document.getElementById('cb-typing-indicator');
+  if(t)t.remove();
+}
+function renderChips(list){
+  var wrap=document.getElementById('chatbot-chips');
+  wrap.innerHTML=list.map(function(c){return '<span class="cb-chip" onclick="chipClick(this)">'+c+'</span>';}).join('');
+}
+function chipClick(el){
+  document.getElementById('chatbot-input').value=el.textContent;
+  sendChatMessage();
+}
+function applyChatbotLang(){
+  var t=cbUI[currentLang];
+  document.getElementById('chatbot-title').innerHTML=t.title;
+  document.getElementById('chatbot-input').placeholder=t.placeholder;
+  document.getElementById('chatbot-toggle').title=t.tooltip;
+}
+function toggleChatbot(){
+  var panel=document.getElementById('chatbot-panel');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open') && !cbOpened){
+    cbOpened=true;
+    charDB=buildCharDB();
+    regionDB=buildRegionDB();
+    applyChatbotLang();
+    appendChatMsg(cbUI[currentLang].greet,'bot');
+    renderChips(cbUI[currentLang].chips);
+    document.getElementById('chatbot-input').focus();
+  } else if(panel.classList.contains('open')){
+    document.getElementById('chatbot-input').focus();
+  }
+}
+document.getElementById('chatbot-input').addEventListener('keydown',function(e){
+  if(e.key==='Enter')sendChatMessage();
+});
+function sendChatMessage(){
+  var input=document.getElementById('chatbot-input');
+  var raw=input.value.trim();
+  if(!raw)return;
+  appendChatMsg(escHtml(raw),'user');
+  input.value='';
+  document.getElementById('chatbot-chips').innerHTML='';
+  showTyping();
+  setTimeout(function(){
+    hideTyping();
+    var res=botReply(raw);
+    appendChatMsg(res.text,'bot');
+    if(res.chips)renderChips(res.chips);
+  }, 450+Math.random()*350);
+}
+
+function charReply(c){
+  var elemName={anemo:{fr:'Anemo',en:'Anemo'},geo:{fr:'G\u00E9o',en:'Geo'},electro:{fr:'\u00C9lectro',en:'Electro'},dendro:{fr:'Dendro',en:'Dendro'},hydro:{fr:'Hydro',en:'Hydro'},pyro:{fr:'Pyro',en:'Pyro'},cryo:{fr:'Cryo',en:'Cryo'}};
+  var emoji=elementEmoji[c.element]||'';
+  var stars='\u2B50'.repeat(c.rarity);
+  if(currentLang==='fr'){
+    return {text:'<strong>'+c.name+'</strong> ('+stars+') ma\u00EEtrise l\u2019\u00E9l\u00E9ment '+emoji+' '+(elemName[c.element]?elemName[c.element].fr:c.element)+'. <a href="'+c.href+'">Voir sa fiche &rarr;</a>'};
+  }
+  return {text:'<strong>'+c.name+'</strong> ('+stars+') wields the '+emoji+' '+(elemName[c.element]?elemName[c.element].en:c.element)+' element. <a href="'+c.href+'">View page &rarr;</a>'};
+}
+function regionReply(r){
+  var d=r.desc?r.desc[currentLang]:'';
+  if(currentLang==='fr')return {text:'<strong>'+r.name+'</strong> &mdash; '+r.elementArchon+'<br/>'+d};
+  return {text:'<strong>'+r.name+'</strong> &mdash; '+r.elementArchon+'<br/>'+d};
+}
+function elementReply(el){
+  var names={anemo:{fr:'Anemo',en:'Anemo'},geo:{fr:'G\u00E9o',en:'Geo'},electro:{fr:'\u00C9lectro',en:'Electro'},dendro:{fr:'Dendro',en:'Dendro'},hydro:{fr:'Hydro',en:'Hydro'},pyro:{fr:'Pyro',en:'Pyro'},cryo:{fr:'Cryo',en:'Cryo'}};
+  var matches=Object.values(charDB).filter(function(c){return c.element===el;}).map(function(c){return c.name;}).slice(0,5);
+  var emoji=elementEmoji[el]||'';
+  var n=names[el]?names[el][currentLang]:el;
+  if(currentLang==='fr')return {text:emoji+' L\u2019\u00E9l\u00E9ment <strong>'+n+'</strong> est ma\u00EEtris\u00E9 par des personnages comme '+matches.join(', ')+', entre autres.'};
+  return {text:emoji+' The <strong>'+n+'</strong> element is wielded by characters like '+matches.join(', ')+', among others.'};
+}
+function fallbackReply(){
+  if(currentLang==='fr')return {text:'Hmm, je ne suis pas s\u00FBr de comprendre &#129300; Essaie de me demander un nom de personnage, une r\u00E9gion, ou clique sur une suggestion ci-dessous !', chips:cbUI.fr.chips};
+  return {text:'Hmm, I\u2019m not sure I understand &#129300; Try asking me about a character name, a region, or click a suggestion below!', chips:cbUI.en.chips};
+}
+function botReply(raw){
+  var msg=cbNormalize(raw);
+
+  if(/\b(bonjour|salut|coucou|hello|hi|hey|yo)\b/.test(msg)){
+    return currentLang==='fr'?{text:'Salut, Voyageur ! &#10022; Que veux-tu savoir ?'}:{text:'Hello, Traveler! &#10022; What would you like to know?'};
+  }
+  if(/\b(merci|thanks|thank you)\b/.test(msg)){
+    return currentLang==='fr'?{text:'Avec plaisir, puisse Teyvat te guider ! &#10024;'}:{text:'You\u2019re welcome, may Teyvat guide you! &#10024;'};
+  }
+  if(/\b(au revoir|a plus|bye|ciao)\b/.test(msg)){
+    return currentLang==='fr'?{text:'\u00C0 bient\u00F4t, Voyageur ! &#128075;'}:{text:'See you soon, Traveler! &#128075;'};
+  }
+  if(/(que peux tu faire|comment ca marche|^aide$|\baide\b|\bhelp\b|what can you do)/.test(msg)){
+    return currentLang==='fr'
+      ?{text:'Je peux te renseigner sur les personnages (\u00E9l\u00E9ment, raret\u00E9), les r\u00E9gions de Teyvat, les Archons, les Visions, la monnaie du jeu, ou t\u2019orienter vers le quiz !', chips:cbUI.fr.chips}
+      :{text:'I can tell you about characters (element, rarity), Teyvat\u2019s regions, the Archons, Visions, the in-game currency, or point you to the quiz!', chips:cbUI.en.chips};
+  }
+
+  for(var key in charDB){ if(key && msg.indexOf(key)!==-1) return charReply(charDB[key]); }
+  for(var rkey in regionDB){ if(rkey && msg.indexOf(rkey)!==-1) return regionReply(regionDB[rkey]); }
+
+  if(/\bmora\b|monnaie|currency/.test(msg)){
+    return currentLang==='fr'?{text:'&#128176; Le <strong>Mora</strong> est la monnaie principale de Genshin Impact, utilis\u00E9e pour l\u2019artisanat, l\u2019am\u00E9lioration d\u2019armes et de personnages.'}:{text:'&#128176; <strong>Mora</strong> is the main currency in Genshin Impact, used for crafting, weapon and character ascension.'};
+  }
+  if(/\barchon/.test(msg)){
+    return currentLang==='fr'?{text:'Il y a <strong>7 Archons</strong>, chacun gouvernant une nation de Teyvat et ma\u00EEtrisant un \u00E9l\u00E9ment : Venti (Anemo), Zhongli (G\u00E9o), Raiden Shogun (\u00C9lectro), Nahida (Dendro), Furina (Hydro), Mavuika (Pyro), et l\u2019Archon Cryo de Snezhnaya, encore myst\u00E9rieux.'}:{text:'There are <strong>7 Archons</strong>, each ruling a nation of Teyvat and wielding one element: Venti (Anemo), Zhongli (Geo), Raiden Shogun (Electro), Nahida (Dendro), Furina (Hydro), Mavuika (Pyro), and the still-mysterious Cryo Archon of Snezhnaya.'};
+  }
+  if(/\bvision/.test(msg)){
+    return currentLang==='fr'?{text:'&#128065;&#65039; Une <strong>Vision</strong> est un cristal b\u00E9ni par les dieux qui conf\u00E8re \u00E0 son porteur la ma\u00EEtrise d\u2019un \u00E9l\u00E9ment.'}:{text:'&#128065;&#65039; A <strong>Vision</strong> is a god-blessed crystal that grants its wielder mastery over one element.'};
+  }
+  if(/fatui/.test(msg)){
+    return currentLang==='fr'?{text:'&#128520; La <strong>Fatui</strong> est une organisation secr\u00E8te originaire de Snezhnaya, qui cherche \u00E0 s\u2019emparer des pouvoirs des Archons.'}:{text:'&#128520; The <strong>Fatui</strong> is a secret organization from Snezhnaya seeking to seize the powers of the Archons.'};
+  }
+  if(/(combien.*element|element.*combien|how many element)/.test(msg)){
+    return currentLang==='fr'?{text:'&#127807; Genshin Impact compte <strong>7 \u00E9l\u00E9ments</strong> : Anemo &#127783;&#65039;, G\u00E9o &#129704;, \u00C9lectro &#9889;, Dendro &#127807;, Hydro &#128167;, Pyro &#128293; et Cryo &#10052;&#65039;.'}:{text:'&#127807; Genshin Impact has <strong>7 elements</strong>: Anemo &#127783;&#65039;, Geo &#129704;, Electro &#9889;, Dendro &#127807;, Hydro &#128167;, Pyro &#128293; and Cryo &#10052;&#65039;.'};
+  }
+  for(var el in elementEmoji){ if(msg.indexOf(el)!==-1) return elementReply(el); }
+
+  if(/(combien.*region|how many region)/.test(msg)){
+    return currentLang==='fr'?{text:'&#128506;&#65039; Teyvat compte <strong>7 r\u00E9gions</strong> : Mondstadt, Liyue, Inazuma, Sumeru, Fontaine, Natlan et Snezhnaya (\u00E0 venir).'}:{text:'&#128506;&#65039; Teyvat has <strong>7 regions</strong>: Mondstadt, Liyue, Inazuma, Sumeru, Fontaine, Natlan and Snezhnaya (coming soon).'};
+  }
+  if(/(combien.*personnage|how many character)/.test(msg)){
+    return currentLang==='fr'?{text:'&#128100; Ce wiki recense plus de <strong>80 personnages</strong> jouables ! Utilise les filtres par \u00E9l\u00E9ment dans la section Personnages pour les explorer.'}:{text:'&#128100; This wiki lists over <strong>80 playable characters</strong>! Use the element filters in the Characters section to browse them.'};
+  }
+  if(/\bquiz\b/.test(msg)){
+    return currentLang==='fr'?{text:'&#127919; Teste tes connaissances dans la section <a href="#quiz" onclick="toggleChatbot()">Quiz</a> !'}:{text:'&#127919; Test your knowledge in the <a href="#quiz" onclick="toggleChatbot()">Quiz</a> section!'};
+  }
+  if(/(qui a (fait|cree)|createur|developpeur|developer|who made|projet scolaire|school project|c'est quoi ce site|what is this site)/.test(msg)){
+    return currentLang==='fr'?{text:'&#8505;&#65039; Ce site est un wiki fan non officiel cr\u00E9\u00E9 dans le cadre d\u2019un projet scolaire, en HTML/CSS/JS vanille. Plus d\u2019infos dans la section <a href="#about" onclick="toggleChatbot()">\u00C0 propos</a>.'}:{text:'&#8505;&#65039; This site is an unofficial fan wiki built as a school project in vanilla HTML/CSS/JS. More info in the <a href="#about" onclick="toggleChatbot()">About</a> section.'};
+  }
+  if(/(c'est quoi genshin|qu'est ce que genshin|what is genshin)/.test(msg)){
+    return currentLang==='fr'?{text:'&#9876;&#65039; Genshin Impact est un action-RPG en monde ouvert d\u00E9velopp\u00E9 par miHoYo, o\u00F9 tu explores Teyvat \u00E0 la recherche de ton jumeau perdu.'}:{text:'&#9876;&#65039; Genshin Impact is an open-world action-RPG by miHoYo, where you explore Teyvat searching for your lost twin.'};
+  }
+
+  return fallbackReply();
+}
+
+/* ── KONAMI ── */
+var kc=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];var ki=0;
+document.addEventListener('keydown',function(e){
+  if(e.key===kc[ki]){ki++;if(ki===kc.length){ki=0;
+    var koMsg=currentLang==='fr'?'\uD83C\uDF1F Code Konami ! Mora x99999 ! \uD83C\uDF1F':'\uD83C\uDF1F Konami Code! Mora x99999! \uD83C\uDF1F';
+    showToast(koMsg,4000);
+    var f=document.createElement('div');Object.assign(f.style,{position:'fixed',top:0,left:0,width:'100%',height:'100%',background:'rgba(255,209,102,.28)',zIndex:99998,pointerEvents:'none',animation:'ko 1s forwards'});
+    var st=document.createElement('style');st.textContent='@keyframes ko{0%{opacity:1}100%{opacity:0}}';
+    document.head.appendChild(st);document.body.appendChild(f);setTimeout(function(){f.remove();st.remove();},1000);
+  }}else ki=0;
+});
+</script>
 </body>
 </html>

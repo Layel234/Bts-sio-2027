@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gorou - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/Gorou_carte.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #e8c95b; }
+  .back-home button, .search-bar button {
+    background-color: #a07c20;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #a07c20;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #a07c20;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.88);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #111;
+  }
+  .info-card strong { color: #333; display: block; margin-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .info-card span { font-size: 1.05rem; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Gorou</h1>
+    <div style="text-align:center;margin-top:10px;">
+      <span class="elem-tag">🪨 Géo</span>
+    </div>
+  </header>
+
+  <div class="image-container">
+    <img src="https://static.wikia.nocookie.net/gensin-impact/images/5/54/Character_Gorou_Full_Wish.png" alt="Gorou — Splash Art" class="clickable-img" onerror="this.src='image/Gorou_carte.webp'" />
+    <img src="https://static.wikia.nocookie.net/gensin-impact/images/2/24/Character_Gorou_Portrait.png" alt="Gorou — Portrait" class="clickable-img" onerror="this.src='image/Gorou_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Gorou est le général en chef des forces de la résistance d'Inazuma, combattant aux côtés de la Shogunate pour l'indépendance des îles Watatsumi. Mi-humain mi-canin avec ses oreilles et sa queue caractéristiques, il inspire une loyauté absolue chez ses soldats grâce à son courage et son sens du sacrifice. Archer Géo redoutable, il est avant tout un meneur d'hommes dont la présence sur le champ de bataille renforce chaque combattant de son équipe.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Gorou a grandi sur les îles Watatsumi, berceau du culte du Dieu Serpent Orobashi. Orphelin très jeune, il s'est forgé au combat et a rapidement gravi les rangs de la résistance jusqu'à en devenir le général malgré son jeune âge. Sa loyauté envers Kokomi — commandante stratégique de la résistance — est indéfectible. Il a combattu dans de nombreuses batailles désespérées contre la Shogunate d'Inazuma, toujours en première ligne pour protéger ses compagnons d'armes et honorer les siens.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Rôle de combat</strong><span>Support Géo — son Burst génère un champ de combat qui booste la défense et les dégâts Géo de l'équipe</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Compétence : frappe Géo ciblée ; Burst : bannière de guerre qui renforce les alliés Géo en continu</span></div>
+      <div class="info-card"><strong>Personnalité</strong><span>Loyal, courageux et droit — un général qui mène par l'exemple avec une humilité désarmante</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Bras droit de Kokomi sur les îles Watatsumi ; combattant emblématique de la résistance d'Inazuma</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/X8fyEHiKBjY"
+              title="Vidéo Gorou"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "baizhu":"baizhu.html","navia":"navia.html","chiori":"chiori.html","noelle":"noelle.html",
+    "ningguang":"ningguang.html","gorou":"gorou.html","yun jin":"yunjin.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

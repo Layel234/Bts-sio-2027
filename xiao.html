@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Xiao - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/xiao.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #a8d8a8; }
+  .back-home button, .search-bar button {
+    background-color: #5a9e6f;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #5a9e6f;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #5a9e6f;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.88);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #111;
+  }
+  .info-card strong { color: #333; display: block; margin-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .info-card span { font-size: 1.05rem; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Xiao</h1>
+    <div style="text-align:center;margin-top:10px;">
+      <span class="elem-tag">🌬️ Anemo</span>
+    </div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/xiao1.jpg" alt="Xiao — Splash Art" class="clickable-img" onerror="this.src='image/Xiao_carte.webp'" />
+    <img src="image/jade.jpg" alt="Xiao — Portrait" class="clickable-img" onerror="this.src='image/Xiao_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Xiao est un yaksha — un guerrier divin au service de Morax — et le dernier survivant des Cinq Yakshas envoyés pour purger Liyue des démons après la guerre des dieux. Solitaire, taciturne et portant le poids de millénaires de karma démoniaque absorbé, il veille en silence depuis les hauteurs de l'auberge Wangshu sur la terre qu'il a juré de protéger. Sous son apparence juvénile se cache un être ancien, épuisé par les siècles, mais dont la volonté ne faiblit jamais.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Pendant des millénaires, Xiao a absorbé le karma de milliers de démons vaincus pour protéger Liyue, un fardeau qui le ronge de l'intérieur sous forme de cauchemars et de douleurs. Les quatre autres yakshas ont tous sombré dans la folie ou disparu, le laissant seul face à ce destin. Contracté autrefois comme esclave par un dieu maléfique avant d'être libéré par Morax, Xiao lui voue une loyauté éternelle. Sa rencontre avec le Voyageur marque l'un des rares moments où il accepte de ne pas combattre seul — une lueur dans son existence de sacrifice perpétuel.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Rôle de combat</strong><span>DPS principal — ses plongeons aériens en mode yaksha infligent des dégâts Anemo massifs en zone</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Compétence : bond Anemo avec dégâts ; Burst : transformation en yaksha boostant attaques et plongeons</span></div>
+      <div class="info-card"><strong>Personnalité</strong><span>Distant, austère et mélancolique — un guerrier ancien épuisé par le karma mais inflexible dans son devoir</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Yaksha au service de Morax / Zhongli ; dernier survivant des Cinq Yakshas de Liyue</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/Nsos3UVMbFs"
+              title="Vidéo Xiao"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "baizhu":"baizhu.html","navia":"navia.html","chiori":"chiori.html","noelle":"noelle.html",
+    "ningguang":"ningguang.html","gorou":"gorou.html","yun jin":"yunjin.html",
+    "kazuha":"kazuha.html","kaedehara kazuha":"kazuha.html",
+    "wanderer":"wanderer.html","scaramouche":"wanderer.html","jean":"jean.html",
+    "xiao":"xiao.html","lynette":"lynette.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

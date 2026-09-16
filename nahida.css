@@ -1,0 +1,98 @@
+/* ====== Global ====== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: url("image/nahi.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+/* ====== Overlay (fond noir transparent pour lisibilité) ====== */
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 30px 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ====== Titres ====== */
+h1 {
+  text-align: center;
+  width: 50%;
+  margin: 0 auto 30px auto;
+  padding-bottom: 20px;
+  border-bottom: 2px solid white;
+  color: #ffd166;
+  font-size: 3.5rem; /* plus gros */
+  font-weight: bold;
+}
+
+h2 {
+  text-align: center;
+  margin: 30px 0 20px 0;
+  color: #ffd166;
+  text-shadow: 1px 1px 3px #000;
+  font-size: 2.5rem; /* plus gros */
+  font-weight: bold;
+}
+
+/* ====== Paragraphes ====== */
+p {
+  max-width: 900px;
+  margin: 0 auto 30px auto;
+  line-height: 1.8;
+  text-align: justify;
+  color: #000; /* texte noir */
+  font-size: 1.25rem; /* plus gros */
+  background: rgba(255, 255, 255, 0.85);
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* ====== Vidéo ====== */
+video {
+  display: block;
+  margin: 40px auto;
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.7);
+}
+/* Conteneur pour les deux images côte à côte */
+.image-container {
+  display: flex;
+  justify-content: center; /* centre horizontalement */
+  gap: 20px;               /* espace entre les images */
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+/* Style des images dans ce conteneur */
+.image-container img {
+  width: 48%;             /* même largeur pour les deux */
+  height: auto;           /* garde les proportions */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  object-fit: cover;      /* utile si tu fixes hauteur aussi */
+}
+
+/* Lightbox background */
+.lightbox {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: none; /* cachée par défaut */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Image agrandie */
+.lightbox img {
+  max-width: 90%;      /* pas trop grand */
+  max-height: 80vh;    /* limite hauteur écran */
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(255,255,255,0.8);
+  cursor: zoom-out;    /* indique qu’on peut fermer */
+}

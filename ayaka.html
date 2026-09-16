@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kamisato Ayaka - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/ayaya.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #a8d8ea; }
+  .back-home button, .search-bar button {
+    background-color: #a8d8ea;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #a8d8ea;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #a8d8ea;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.88);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #111;
+  }
+  .info-card strong { color: #333; display: block; margin-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .info-card span { font-size: 1.05rem; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Kamisato Ayaka</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">❄️ Cryo</span></div>
+  </header>
+
+    <div class="image-container">
+    <img src="image/ayaya1.webp" alt="Kamisato Ayaka — Splash Art" class="clickable-img" onerror="this.src='image/Kamisato_Ayaka_carte.webp'" />
+    <img src="image/ayaya2.jpg" alt="Kamisato Ayaka — Portrait" class="clickable-img" onerror="this.src='image/Kamisato_Ayaka_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Kamisato Ayaka est la fille aînée du clan Kamisato d'Inazuma, l'un des clans les plus prestigieux de l'archipel. Élégante, gracieuse et maîtrisant le sabre avec une précision chirurgicale, elle est vénérée comme l'idéal de la noblesse inazumienne. Son style de combat combine danse et épée, enveloppant ses ennemis dans des tourmentes de neige et de givre.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Ayaka a grandi dans la grande demeure Kamisato sous la pression des traditions et des attentes nobles. Après la mort de ses parents, elle et son frère Ayato ont dû protéger leur clan des intrigues politiques. Malgré les contraintes de son rang, elle rêve de liberté et de découvertes, et s'émerveille des choses simples que les gens ordinaires tiennent pour acquises.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Raffinée, bienveillante, légèrement mélancolique, curieuse du monde extérieur à sa demeure</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Technique Kamisato — Hyouka, burst Danse du blizzard Kamisato — Souffle givrant, sprint élémentaire Cryo</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Frère Ayato (Kamisato), loyauté envers Inazuma, admire le Voyageur</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/kR03VLTQijQ"
+              title="Vidéo Kamisato Ayaka"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

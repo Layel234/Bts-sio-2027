@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr" id="html-root">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lyney - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/Lyney_carte.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #e17055; }
+  .back-home button, .search-bar button {
+    background-color: #e17055;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #e17055;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #e17055;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.88);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #111;
+  }
+  .info-card strong { color: #333; display: block; margin-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .info-card span { font-size: 1.05rem; }
+
+  #lang-toggle {
+    position: fixed;
+    top: 14px;
+    right: 18px;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,209,102,0.35);
+    border-radius: 30px;
+    padding: 5px 12px;
+    font-family: sans-serif;
+    font-size: 0.82rem;
+    color: #fff;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    user-select: none;
+  }
+  #lang-toggle .flag { font-size: 1.1rem; }
+  #lang-toggle .lbl { font-weight: 700; letter-spacing: 1px; color: #ffd166; }
+</style>
+</head>
+<body>
+
+<button id="lang-toggle" onclick="toggleLang()" title="Switch language">
+  <span class="flag" id="lang-flag">&#127468;&#127463;</span>
+  <span class="lbl" id="lang-lbl">EN</span>
+</button>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" data-fr="Rechercher un personnage..." data-en="Search a character..." placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()" data-fr="Rechercher" data-en="Search">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Lyney</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag" data-fr="&#128293; Pyro" data-en="&#128293; Pyro">&#128293; Pyro</span></div>
+  </header>
+
+    <div class="image-container">
+    <img src="image/" alt="Lyney — Splash Art" class="clickable-img" onerror="this.src='image/Lyney_carte.webp'" />
+    <img src="image/" alt="Lyney — Portrait" class="clickable-img" onerror="this.src='image/Lyney_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2 data-fr="Description" data-en="Description">Description</h2>
+    <p data-fr="Lyney est un magicien illusionniste de Fontaine, célèbre dans tout l'archipel pour ses spectacles époustouflants. Avec sa sœur Lynette, il se produit sur les plus grandes scènes de la nation de la justice. Sous ses airs de prestidigitateur charmeur se cache un agent de la Fatui, entraîné dans la Maison des Enfants d'Arlecchino. Son arc Pyro fait pleuvoir des as enflammés sur ses adversaires." data-en="Lyney is an illusionist magician from Fontaine, famous throughout the archipelago for his breathtaking shows. Together with his sister Lynette, he performs on the grandest stages of the nation of justice. Behind his charming conjurer persona hides a Fatui agent, trained in Arlecchino's House of the Hearth. His Pyro bow rains down blazing aces upon his opponents.">Lyney est un magicien illusionniste de Fontaine, célèbre dans tout l'archipel pour ses spectacles époustouflants. Avec sa sœur Lynette, il se produit sur les plus grandes scènes de la nation de la justice. Sous ses airs de prestidigitateur charmeur se cache un agent de la Fatui, entraîné dans la Maison des Enfants d'Arlecchino. Son arc Pyro fait pleuvoir des as enflammés sur ses adversaires.</p>
+  </section>
+
+  <section id="histoire">
+    <h2 data-fr="Son Histoire" data-en="His Story">Son Histoire</h2>
+    <p data-fr="Lyney et Lynette ont grandi ensemble dans la Maison des Enfants, où ils ont appris autant la magie de scène que les arts du renseignement. Leur couverture de magiciens leur permet de voyager librement et de recueillir des informations pour la Fatui. Malgré cela, Lyney semble genuinement passionné par la magie et prend à cœur sa relation avec le public qu'il enchante." data-en="Lyney and Lynette grew up together in the House of the Hearth, where they learned stage magic as much as the arts of espionage. Their cover as magicians lets them travel freely and gather information for the Fatui. Despite this, Lyney seems genuinely passionate about magic and cares deeply about the bond he forges with the audience he enchants.">Lyney et Lynette ont grandi ensemble dans la Maison des Enfants, où ils ont appris autant la magie de scène que les arts du renseignement. Leur couverture de magiciens leur permet de voyager librement et de recueillir des informations pour la Fatui. Malgré cela, Lyney semble genuinement passionné par la magie et prend à cœur sa relation avec le public qu'il enchante.</p>
+  </section>
+
+  <section id="autres">
+    <h2 data-fr="Autres Infos" data-en="Other Info">Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong data-fr="Traits de personnalité" data-en="Personality traits">Traits de personnalité</strong><span data-fr="Charmeur, théâtral, protecteur envers Lynette, cache ses véritables émotions avec le sourire" data-en="Charming, theatrical, protective of Lynette, hides his true feelings behind a smile">Charmeur, théâtral, protecteur envers Lynette, cache ses véritables émotions avec le sourire</span></div>
+      <div class="info-card"><strong data-fr="Capacités spéciales" data-en="Special abilities">Capacités spéciales</strong><span data-fr="Chats Pyro invoqués, burst Grand Final — As de cœur enflammé, synergies avec Lynette" data-en="Summoned Pyro cats, Grand Finale burst — blazing Ace of Hearts, synergies with Lynette">Chats Pyro invoqués, burst Grand Final — As de cœur enflammé, synergies avec Lynette</span></div>
+      <div class="info-card"><strong data-fr="Relations" data-en="Relationships">Relations</strong><span data-fr="Inséparable de Lynette, sous les ordres d'Arlecchino, populaire à Fontaine" data-en="Inseparable from Lynette, under Arlecchino's orders, popular in Fontaine">Inséparable de Lynette, sous les ordres d'Arlecchino, populaire à Fontaine</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2 data-fr="Vidéo du personnage" data-en="Character video">Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/YKXG7zAcKTE"
+              title="Vidéo Lyney"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button data-fr="&#8592; Retour à l'accueil" data-en="&#8592; Back to home">← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html","neuvillette":"Neuvillette.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+
+  /* ══ TRADUCTION FR / EN (partagée avec index.html via localStorage) ══ */
+  let currentLang = localStorage.getItem('site_lang') || 'fr';
+  function applyLang(lang) {
+    document.getElementById('html-root').lang = lang;
+    document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {
+      var val = el.getAttribute('data-' + lang);
+      if (el.tagName === 'INPUT' && el.type !== 'hidden') {
+        el.placeholder = val;
+      } else {
+        el.innerHTML = val;
+      }
+    });
+    document.getElementById('lang-flag').innerHTML = lang === 'fr' ? '&#127468;&#127463;' : '&#127467;&#127479;';
+    document.getElementById('lang-lbl').textContent  = lang === 'fr' ? 'EN' : 'FR';
+  }
+  function toggleLang() {
+    currentLang = currentLang === 'fr' ? 'en' : 'fr';
+    localStorage.setItem('site_lang', currentLang);
+    applyLang(currentLang);
+  }
+  applyLang(currentLang);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wanderer - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/Wanderer_carte.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #a8d8a8; }
+  .back-home button, .search-bar button {
+    background-color: #5a9e6f;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #5a9e6f;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #5a9e6f;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.88);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #111;
+  }
+  .info-card strong { color: #333; display: block; margin-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .info-card span { font-size: 1.05rem; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Wanderer</h1>
+    <div style="text-align:center;margin-top:10px;">
+      <span class="elem-tag">🌬️ Anemo</span>
+    </div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Wanderer — Splash Art" class="clickable-img" onerror="this.src='image/Wanderer_carte.webp'" />
+    <img src="image/" alt="Wanderer — Portrait" class="clickable-img" onerror="this.src='image/Wanderer_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Le Wanderer — anciennement connu sous les noms de Scaramouche puis Kunikuzushi — est l'un des personnages les plus complexes et tourmentés de Teyvat. Marionnette créée par la Shogunate d'Inazuma à partir de l'essence divine de Raiden Ei, il a traversé des siècles de trahisons, de haine et de désillusions avant de choisir, enfin, de s'écrire un nouveau destin. Combattant Anemo aérien hors pair, il lévite en combat et déploie des rafales de vent d'une puissance dévastatrice.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Créé par Raiden Ei comme réceptacle pour son Gnosis, Scaramouche fut rejeté et abandonné dès sa naissance car ses émotions le rendaient "trop humain" pour servir de contenant divin. Recueilli puis trahi à plusieurs reprises par des humains en qui il avait placé sa confiance, il sombra dans une haine profonde de l'humanité et rejoignit la Fatui pour en devenir le Sixième Exécuteur. Après sa défaite face au Voyageur à Sumeru, ses mémoires furent effacées par les Sages et il renaît sous le nom de "Wanderer" — un être sans passé, cherchant à bâtir une identité nouvelle loin de la violence et de la haine.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Rôle de combat</strong><span>DPS principal — lévite en combat pour frapper à distance, infligeant des dégâts Anemo massifs en rafales</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Compétence : mode vol Anemo avec attaques renforcées ; Burst : tempête de vents concentrée dévastratrice</span></div>
+      <div class="info-card"><strong>Personnalité</strong><span>Sarcastique et distant en façade, mais profondément blessé — un être cherchant à exister par lui-même</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Créé par Raiden Ei ; ancien Sixième Exécuteur de la Fatui ; lié au Voyageur et à Nahida après Sumeru</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/3hHbFLSqEqI"
+              title="Vidéo Wanderer"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "baizhu":"baizhu.html","navia":"navia.html","chiori":"chiori.html","noelle":"noelle.html",
+    "ningguang":"ningguang.html","gorou":"gorou.html","yun jin":"yunjin.html",
+    "kazuha":"kazuha.html","kaedehara kazuha":"kazuha.html",
+    "wanderer":"wanderer.html","scaramouche":"wanderer.html","jean":"jean.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

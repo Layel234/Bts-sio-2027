@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clorinde - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/Clorinde_carte.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #a78bfa; }
+  .back-home button, .search-bar button {
+    background-color: #7c5cbf;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #7c5cbf;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #7c5cbf, #4c2d8a);
+    color: #fff;
+    padding: 5px 18px;
+    border-radius: 30px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 16px rgba(124, 92, 191, 0.5);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  section::before {
+    background: linear-gradient(to right, transparent 0%, rgba(124, 92, 191, 0.5) 50%, transparent 100%) !important;
+  }
+  h2::after {
+    background: linear-gradient(to right, #a78bfa 0%, transparent 100%) !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Clorinde</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">⚡ Électro</span></div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Clorinde — Splash Art" class="clickable-img" onerror="this.src='image/Clorinde_carte.webp'" />
+    <img src="image/" alt="Clorinde — Portrait" class="clickable-img" onerror="this.src='image/Clorinde_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Clorinde est la Championne de Duels de Fontaine, une épéiste d'élite dont la réputation d'invincibilité au combat singulier n'est plus à faire. Liée à un pacte mystérieux avec un être obscur, elle canalise l'énergie Électro à travers son pistolet-épée en une danse mortelle de coups rapides et de tirs foudroyants. Froide et déterminée en apparence, elle porte un lourd fardeau que peu connaissent.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Clorinde a grandi dans l'ombre des duels qui rythment la société de Fontaine. Formée dès son jeune âge aux arts du combat, elle est devenue la Championne officielle de la nation, chargée de représenter la justice en duel. Mais derrière ce titre honorifique se cache un contrat sombre passé pour sauver ce qu'elle avait de plus cher. Sa relation avec Furina, l'Archon de Fontaine, et ses liens avec la Maison de l'Opinel révèlent peu à peu les strates d'un destin bien plus complexe que son image de guerrière impassible.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Stoïque, loyale, déterminée, portant un pacte secret qui la consume, mais gardant une noblesse d'âme inébranlable</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Épée Électro, mode pistol-épée hybride, compétence Hunter's Vigil transformant ses attaques normales en tirs électriques rapides</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Championne de Fontaine au service de Furina, liée à la Maison de l'Opinel, alliée de Navia et figure respectée du système judiciaire de Fontaine</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/GHHFpCg0hU0"
+              title="Vidéo Clorinde"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "neuvillette":"neuvillette.html","ayato":"ayato.html","kamisato ayato":"ayato.html",
+    "yelan":"yelan.html","tartaglia":"tartaglia.html","childe":"tartaglia.html",
+    "yae miko":"yaemiko.html","yae":"yaemiko.html","clorinde":"clorinde.html",
+    "keqing":"keqing.html","cyno":"cyno.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

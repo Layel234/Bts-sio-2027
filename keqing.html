@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Keqing - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/Keqing_carte.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #c084fc; }
+  .back-home button, .search-bar button {
+    background-color: #8b46c8;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #8b46c8;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #8b46c8, #5a1a96);
+    color: #fff;
+    padding: 5px 18px;
+    border-radius: 30px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 16px rgba(139, 70, 200, 0.5);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  section::before {
+    background: linear-gradient(to right, transparent 0%, rgba(139, 70, 200, 0.5) 50%, transparent 100%) !important;
+  }
+  h2::after {
+    background: linear-gradient(to right, #c084fc 0%, transparent 100%) !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Keqing</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">⚡ Électro</span></div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Keqing — Splash Art" class="clickable-img" onerror="this.src='image/Keqing_carte.webp'" />
+    <img src="image/" alt="Keqing — Portrait" class="clickable-img" onerror="this.src='image/Keqing_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Keqing est la Yuheng du Qixing de Liyue, une des sept personnes les plus puissantes qui gouvernent la nation en l'absence des dieux. Pragmatique et travailleuse acharnée, elle croit en la capacité des humains à forger leur propre destin sans l'aide des Archons. Elle combat à l'épée en téléportant des sceaux d'éclairs qui lui permettent de se déplacer à une vitesse foudroyante, tranchant l'air et les ennemis en rafales violettes étincelantes.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Née dans une famille modeste de Liyue, Keqing a gravi les échelons du Qixing à force de mérite et de travail. Son ascension rapide à l'un des postes les plus influents de Liyue Harbour témoigne d'une intelligence et d'une discipline hors du commun. Sceptique envers Rex Lapis et la dépendance de Liyue aux dieux, elle s'est retrouvée confrontée à ses convictions lors des événements entourant la mort apparente de Zhongli. Loin de l'ébranler, cette épreuve n'a fait que renforcer sa détermination à bâtir un avenir humain indépendant.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Perfectionniste, ambitieuse, indépendante, partisane d'un avenir humain autonome, animée par une éthique de travail sans faille</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Épée Électro, Stellar Restoration plaçant des sceaux-éclairs permettant une téléportation instantanée et des attaques en chaîne dévastatrices</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Yuheng du Qixing, collègue de Ningguang et Beidou, figure emblématique de Liyue Harbour admirée pour son dévouement à la nation</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/YSGXBLaJslY"
+              title="Vidéo Keqing"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "neuvillette":"neuvillette.html","ayato":"ayato.html","kamisato ayato":"ayato.html",
+    "yelan":"yelan.html","tartaglia":"tartaglia.html","childe":"tartaglia.html",
+    "yae miko":"yaemiko.html","yae":"yaemiko.html","clorinde":"clorinde.html",
+    "keqing":"keqing.html","cyno":"cyno.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

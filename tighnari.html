@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tighnari - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("https://static.wikia.nocookie.net/gensin-impact/images/6/6e/Character_Tighnari_Card.png") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #6ec96e; }
+  .back-home button, .search-bar button {
+    background-color: #6ec96e;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #6ec96e;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #6ec96e;
+    color: #051005;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: none;
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(110, 201, 110, 0.10);
+    border: 1px solid rgba(110, 201, 110, 0.25);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #e8e0d0;
+  }
+  .info-card strong { color: #6ec96e; display: block; margin-bottom: 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-family: 'Cinzel', serif; }
+  .info-card span { font-size: 0.95rem; font-weight: 300; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Tighnari</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">🌿 Dendro</span></div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Tighnari — Splash Art" class="clickable-img" onerror="this.style.display='none'" />
+    <img src="image/" alt="Tighnari — Portrait" class="clickable-img" onerror="this.style.display='none'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Tighnari est le gardien de la Forêt de Gandharva Ville dans la région de Sumeru. Archer et utilisateur de l'élément Dendro, il tire des flèches traçantes capable d'infliger des dégâts Dendro en chaîne via son talent de chargement amélioré. Son style de combat repose sur la précision et la rapidité : sa compétence élémentaire ralentit les ennemis dans une zone tandis que ses flèches chargées cherchent leur cible automatiquement après usage de la compétence. Premier personnage Dendro 5★ du jeu, il a ouvert la voie aux compositions Spread dévastatrices de Sumeru.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Tighnari est un garde-forestier rigoureux et passionné, dont les longues oreilles de renard trahissent une ascendance semi-divine ou une connexion profonde avec la forêt de Sumeru. Véritable expert en botanique et en faune locale, il consacre sa vie à protéger l'écosystème de Gandharva Ville des perturbations causées par le champignon Withering. D'un caractère pédagogue mais parfois condescendant avec les imprudents, il cache derrière sa rigueur professionnelle une réelle bienveillance envers ses élèves et ses compagnons, notamment Collei qu'il a prise sous son aile avec une tendresse discrète.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Méthodique, pédagogue, légèrement sarcastique, profondément attaché à la nature et protecteur de ceux qu'il guide</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Arc Dendro, flèches traçantes auto-guidées, compétence de ralentissement AOE, burst de flèches Dendro en essaim, excellent en composition Spread</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Gardien de Gandharva Ville, mentor de Collei, allié de Cyno et Al-Haitham, proche de Nahida (Lesser Lord Kusanali)</span></div>
+      <div class="info-card"><strong>Nation</strong><span>Sumeru — Forêt de Gandharva Ville, Cité de la Sagesse</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/VclZBgGJVoA"
+              title="Vidéo Tighnari"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "neuvillette":"neuvillette.html","ayato":"ayato.html","kamisato ayato":"ayato.html",
+    "yelan":"yelan.html","tartaglia":"tartaglia.html","childe":"tartaglia.html",
+    "nilou":"nilou.html","sigewinne":"sigewinne.html","barbara":"barbara.html","xingqiu":"xingqiu.html",
+    "fischl":"fischl.html","beidou":"beidou.html","razor":"razor.html",
+    "alhaitham":"alhaitham.html","al-haitham":"alhaitham.html","tighnari":"tighnari.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

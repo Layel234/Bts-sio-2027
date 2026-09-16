@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chongyun - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/chongyun.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #aed6f1; }
+  .back-home button, .search-bar button {
+    background-color: #aed6f1;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #aed6f1;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #aed6f1;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.88);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #111;
+  }
+  .info-card strong { color: #333; display: block; margin-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .info-card span { font-size: 1.05rem; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Chongyun</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">❄️ Cryo</span></div>
+  </header>
+
+    <div class="image-container">
+    <img src="image/chongyun1.jpg" alt="Chongyun — Splash Art" class="clickable-img" onerror="this.src='image/Chongyun_carte.webp'" />
+    <img src="image/chon.jpg" alt="Chongyun — Portrait" class="clickable-img" onerror="this.src='image/Chongyun_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Chongyun est un jeune exorciste de Liyue possédant un Yang pur exceptionnel — si puissant qu'aucun esprit maléfique ne peut s'approcher de lui. Cette pureté débordante se manifeste aussi sur son corps, le rendant hypersensible aux stimuli et lui causant parfois des éruptions de Yang involontaires. Il cherche désespérément à prouver sa valeur en tant qu'exorciste malgré ce paradoxe.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Issu d'une longue lignée d'exorcistes, Chongyun a toujours voulu suivre les traces de sa famille. Mais son Yang pur exceptionnel l'a mis dans une situation ironique : les fantômes fuient avant même qu'il arrive. Pour contrôler ses éruptions, il mange des aliments pimentés — ce qui rend son comportement parfois imprévisible. Son ami Xingqiu aime lui jouer des tours à ce sujet.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Sérieux, déterminé, naïf, légèrement gêné par ses éruptions de Yang, grand fan de glaces</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Champ de givre élémentaire, claymore Cryo, burst Éruption de nuage de glace</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Meilleur ami de Xingqiu, respecte les traditions de Liyue, admire les grands exorcistes</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/QQfX9AXUkBo"
+              title="Vidéo Chongyun"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

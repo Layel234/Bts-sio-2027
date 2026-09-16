@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kaedehara Kazuha - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/Kazuha_carte.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #a8d8a8; }
+  .back-home button, .search-bar button {
+    background-color: #5a9e6f;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #5a9e6f;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #5a9e6f;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.88);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #111;
+  }
+  .info-card strong { color: #333; display: block; margin-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .info-card span { font-size: 1.05rem; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Kaedehara Kazuha</h1>
+    <div style="text-align:center;margin-top:10px;">
+      <span class="elem-tag">🌬️ Anemo</span>
+    </div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Kazuha — Splash Art" class="clickable-img" onerror="this.src='image/Kazuha_carte.webp'" />
+    <img src="image/" alt="Kazuha — Portrait" class="clickable-img" onerror="this.src='image/Kazuha_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Kaedehara Kazuha est un samouraï errant d'Inazuma, poète sensible et guerrier accompli dont l'âme vibre à l'unisson du vent. Issu d'un clan noble tombé en disgrâce, il parcourt les mers à bord du Crux, le navire de Beidou, en quête d'une paix intérieure qu'il exprime à travers des haïkus et une maîtrise Anemo d'une grâce rare. Chaque feuille d'érable emportée par le vent lui rappelle la fragilité et la beauté de l'instant présent.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Kazuha a fui Inazuma après un événement tragique : son meilleur ami, condamné à mort par la Shogunate pour avoir possédé une Vision, mourut avant que Kazuha ait pu le sauver. Dans un élan désespéré, Kazuha saisit la Vision de son ami au moment où elle s'éteignait — et ce geste la ralluma, lui conférant le pouvoir Anemo. Désormais fugitif et porteur d'une Vision interdite, il erre sur les océans avec Beidou, composant des poèmes, cherchant le sens du vent, et portant en silence le souvenir de celui qu'il n'a pas pu protéger.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Rôle de combat</strong><span>Support Anemo / sub-DPS — maître de la dispersion élémentaire, il amplifie les dégâts de toute l'équipe</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Compétence : tourbillon Anemo aspirant les ennemis ; Burst : tempête de feuilles d'érable infligeant des dégâts en zone</span></div>
+      <div class="info-card"><strong>Personnalité</strong><span>Contemplatif, mélancolique et poétique — une sérénité de façade qui cache un deuil profond et une âme noble</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Compagnon de route de Beidou sur le Crux ; lié à la Shogunate d'Inazuma par un passé douloureux</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/S5bFNDKJSvo"
+              title="Vidéo Kazuha"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "baizhu":"baizhu.html","navia":"navia.html","chiori":"chiori.html","noelle":"noelle.html",
+    "ningguang":"ningguang.html","gorou":"gorou.html","yun jin":"yunjin.html",
+    "kazuha":"kazuha.html","kaedehara kazuha":"kazuha.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

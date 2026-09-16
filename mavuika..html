@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Furina</title>
+<link rel="stylesheet" href="furina.css" />
+<style>
+  /* Barre de recherche en haut à droite */
+  .search-bar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .search-bar input {
+    padding: 6px 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  .search-bar button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ffd166;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .search-bar button:hover {
+    background-color: #f4a261;
+  }
+
+  /* Titre centré malgré la barre */
+  h1 {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  /* Images des personnages */
+  .image-container img {
+    width: 400px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    cursor: zoom-in;
+    transition: transform 0.3s;
+  }
+
+  .image-container img:hover {
+    transform: scale(1.05);
+  }
+
+  /* Bouton retour accueil */
+  .back-home {
+    text-align: center;
+    margin: 40px 0;
+  }
+
+  .back-home button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffd166;
+    color: #000;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+  }
+
+  .back-home button:hover {
+    background-color: #f4a261;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .lightbox img {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.8);
+    cursor: zoom-out;
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <!-- Barre de recherche -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Furina</h1>
+  </header>
+
+  <!-- Images -->
+  <div class="image-container">
+    <img src="image/splen.webp" alt="image 1" class="clickable-img" />
+    <img src="image/neu.png" alt="image 2" class="clickable-img" />
+  </div>
+
+  <!-- Description -->
+  <section id="description">
+    <h2>Description</h2>
+    <p>Voici une brève description du personnage...</p>
+  </section>
+
+  <!-- Histoire -->
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Le background et l'histoire détaillée...</p>
+  </section>
+
+  <!-- Autres infos -->
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <ul>
+      <li>Traits de personnalité</li>
+      <li>Capacités spéciales</li>
+      <li>Relations</li>
+    </ul>
+  </section>
+
+  <!-- Bouton retour à l'accueil -->
+  <div class="back-home">
+    <a href="index.html"><button>Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<!-- Script lightbox + recherche -->
+<script>
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  const images = document.querySelectorAll('.clickable-img');
+
+  images.forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightbox.style.display = 'flex';
+    });
+  });
+
+  lightbox.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+    lightboxImg.src = '';
+  });
+
+  // Recherche personnage
+  function searchCharacter() {
+    const input = document.getElementById('searchInput').value.toLowerCase().trim();
+
+    if(input === "raiden" || input === "raiden shogun") {
+      window.location.href = "raiden.html";
+    } else if(input === "venti") {
+      window.location.href = "venti.html";
+    } else if(input === "zhongli") {
+      window.location.href = "zhongli.html";
+    } else if(input === "nahida") {
+      window.location.href = "Nahida.html";
+    } else if(input === "furina") {
+      window.location.href = "furina.html";
+    } else if(input === "mavuika") {
+      window.location.href = "Mavuika.html";
+    } else if(input === "columbina") {
+      window.location.href = "Columbina.html";
+    } else {
+      alert("Personnage non trouvé !");
+    }
+  }
+</script>
+
+</body>
+</html>

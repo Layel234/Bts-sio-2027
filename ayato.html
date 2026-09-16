@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kamisato Ayato - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/Ayato_carte.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #6ec6f5; }
+  .back-home button, .search-bar button {
+    background-color: #6ec6f5;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #6ec6f5;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #6ec6f5;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.88);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #111;
+  }
+  .info-card strong { color: #333; display: block; margin-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .info-card span { font-size: 1.05rem; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Kamisato Ayato</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">💧 Hydro</span></div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Ayato — Splash Art" class="clickable-img" onerror="this.src='image/Ayato_carte.webp'" />
+    <img src="image/" alt="Ayato — Portrait" class="clickable-img" onerror="this.src='image/Ayato_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Kamisato Ayato est le chef du clan Kamisato et directeur du Département des Affaires des Maisons à Inazuma. Frère aîné d'Ayaka, il gouverne dans l'ombre avec une intelligence redoutable et une efficacité sans faille. Il manie l'épée avec une grâce aquatique, ses attaques infligeant rapidement des dégâts Hydro en rafales successives lors de sa compétence élémentaire.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Ayato a grandi dans les tumultes politiques d'Inazuma, prenant la tête du clan Kamisato à un jeune âge après la mort prématurée de ses parents. Pour protéger sa famille et son clan, il a forgé une réputation d'homme mystérieux et calculateur, nouant des alliances secrètes et déjouant les intrigues de la cour du Shogunat. Derrière cette façade froide se cache un homme profondément dévoué à ceux qu'il aime.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Énigmatique, intelligent, stratège, protecteur discret de sa sœur Ayaka et de son clan</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Épée Hydro, compétence Takimeguri Kanka (multifrappe aquatique), burst de déluge de lames d'eau</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Frère protecteur d'Ayaka, allié de Thoma, chef respecté au sein du Shogunat d'Inazuma</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/k8TcBSl9B84"
+              title="Vidéo Kamisato Ayato"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "neuvillette":"neuvillette.html","ayato":"ayato.html","kamisato ayato":"ayato.html",
+    "yelan":"yelan.html","tartaglia":"tartaglia.html","childe":"tartaglia.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

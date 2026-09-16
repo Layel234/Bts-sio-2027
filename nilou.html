@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nilou - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("https://static.wikia.nocookie.net/gensin-impact/images/9/93/Character_Nilou_Card.png") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #7ee8c8; }
+  .back-home button, .search-bar button {
+    background-color: #7ee8c8;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #7ee8c8;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #7ee8c8;
+    color: #0a1f1a;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: none;
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(126, 232, 200, 0.10);
+    border: 1px solid rgba(126, 232, 200, 0.25);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #e8e0d0;
+  }
+  .info-card strong { color: #7ee8c8; display: block; margin-bottom: 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-family: 'Cinzel', serif; }
+  .info-card span { font-size: 0.95rem; font-weight: 300; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Nilou</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">💧 Hydro</span></div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Nilou — Splash Art" class="clickable-img" onerror="this.style.display='none'" />
+    <img src="image/" alt="Nilou — Portrait" class="clickable-img" onerror="this.style.display='none'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Nilou est une danseuse étoile du Grand Bazar de Sumeru, célèbre dans tout le pays pour sa grâce et son talent incomparable. Maniante de l'épée, elle canalise l'élément Hydro à travers ses mouvements de danse, transformant chaque combat en un spectacle aquatique saisissant. Sa compétence élémentaire crée un Rideau d'eau de lune qui lui confère des effets spéciaux selon le type d'équipe composée, la rendant particulièrement redoutable dans des équipes Bloom (Hydro + Dendro).</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Nilou a grandi à Sumeru dans un foyer modeste, passionnée de danse depuis son plus jeune âge. Elle a rejoint la troupe du Grand Bazar et est rapidement devenue la danseuse la plus admirée de la ville. Contrairement aux érudits de l'Académie, Nilou valorise les arts et les émotions par-dessus tout. Lors de l'Arc Sumeru, elle joue un rôle clé dans la résistance contre le projet Akasha, défendant le droit des gens à rêver librement. Son âme pure et son amour de la danse lui confèrent une force intérieure que peu soupçonnent.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Douce, rêveuse, passionnée de danse, ouverte et sincère envers tous</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Épée Hydro, Rideau d'eau de lune, synergies Bloom puissantes avec les équipes Hydro/Dendro</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Danseuse principale du Grand Bazar, alliée du Voyageur lors de l'Arc Sumeru, amie du peuple</span></div>
+      <div class="info-card"><strong>Nation</strong><span>Sumeru — Cité des érudits et des rêves</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/UIHKOvvHjFI"
+              title="Vidéo Nilou"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "neuvillette":"neuvillette.html","ayato":"ayato.html","kamisato ayato":"ayato.html",
+    "yelan":"yelan.html","tartaglia":"tartaglia.html","childe":"tartaglia.html",
+    "nilou":"nilou.html","sigewinne":"sigewinne.html","barbara":"barbara.html","xingqiu":"xingqiu.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

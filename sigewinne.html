@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sigewinne - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("https://static.wikia.nocookie.net/gensin-impact/images/5/5e/Character_Sigewinne_Card.png") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #6ec6f5; }
+  .back-home button, .search-bar button {
+    background-color: #6ec6f5;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #6ec6f5;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: #6ec6f5;
+    color: #07111f;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-shadow: none;
+  }
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+  .info-card {
+    background: rgba(110, 198, 245, 0.10);
+    border: 1px solid rgba(110, 198, 245, 0.25);
+    border-radius: 10px;
+    padding: 14px 20px;
+    min-width: 200px;
+    flex: 1;
+    color: #e8e0d0;
+  }
+  .info-card strong { color: #6ec6f5; display: block; margin-bottom: 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-family: 'Cinzel', serif; }
+  .info-card span { font-size: 0.95rem; font-weight: 300; }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Sigewinne</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">💧 Hydro</span></div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Sigewinne — Splash Art" class="clickable-img" onerror="this.style.display='none'" />
+    <img src="image/" alt="Sigewinne — Portrait" class="clickable-img" onerror="this.style.display='none'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Sigewinne est une mélusine infirmière en chef à la Prison de Spina di Rosula, dans la région de Fontaine. Malgré sa petite stature et son apparence enfantine, elle est d'une compétence médicale redoutable et appréciée de tous les détenus. Elle manie l'arc et canalise l'élément Hydro, soignant ses alliés avec des bulles thérapeutiques tout en infligeant des dégâts à ses ennemis. Sa compétence signature crée des Bulles Supersaturées qui absorbent le soin excédentaire pour le convertir en puissance offensive.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Sigewinne est une mélusine, une espèce proche des humains native de Fontaine, liée de manière particulière à l'élément Hydro. Elle a toujours eu une vocation pour le soin et le réconfort des autres, ce qui l'a naturellement conduite à devenir infirmière. Affectée à la prison de Spina di Rosula, elle traite chaque détenu avec la même bienveillance, sans jugement, croyant fermement en la rédemption. Sa relation amicale avec Wriothesley, directeur de la prison, est fondée sur un respect mutuel profond.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Bienveillante, curieuse, soigneuse, décidée et plus mature qu'elle n'y paraît</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Arc Hydro, Bulles Supersaturées, soins puissants basés sur les HP max, excellente support de soin</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Proche de Wriothesley, infirmière respectée des détenus de la prison de Fontaine</span></div>
+      <div class="info-card"><strong>Nation</strong><span>Fontaine — Nation de la justice et de l'eau</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/gC7FHpyUFaY"
+              title="Vidéo Sigewinne"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "neuvillette":"neuvillette.html","ayato":"ayato.html","kamisato ayato":"ayato.html",
+    "yelan":"yelan.html","tartaglia":"tartaglia.html","childe":"tartaglia.html",
+    "nilou":"nilou.html","sigewinne":"sigewinne.html","barbara":"barbara.html","xingqiu":"xingqiu.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>

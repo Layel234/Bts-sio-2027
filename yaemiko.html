@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Yae Miko - Genshin Impact Wiki</title>
+<link rel="stylesheet" href="columbina.css" />
+<style>
+  body {
+    background: url("image/YaeMiko_carte.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+  h1, h2 { color: #d97ef5; }
+  .back-home button, .search-bar button {
+    background-color: #b45fd4;
+  }
+  .back-home button:hover, .search-bar button:hover {
+    background-color: #b45fd4;
+    opacity: 0.85;
+  }
+  .elem-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #b45fd4, #7a2fa0);
+    color: #fff;
+    padding: 5px 18px;
+    border-radius: 30px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 16px rgba(180, 95, 212, 0.5);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  section::before {
+    background: linear-gradient(to right, transparent 0%, rgba(180, 95, 212, 0.5) 50%, transparent 100%) !important;
+  }
+  h2::after {
+    background: linear-gradient(to right, #d97ef5 0%, transparent 100%) !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un personnage..." />
+    <button onclick="searchCharacter()">Rechercher</button>
+  </div>
+
+  <header>
+    <h1>Yae Miko</h1>
+    <div style="text-align:center;margin-top:10px;"><span class="elem-tag">⚡ Électro</span></div>
+  </header>
+
+  <div class="image-container">
+    <img src="image/" alt="Yae Miko — Splash Art" class="clickable-img" onerror="this.src='image/YaeMiko_carte.webp'" />
+    <img src="image/" alt="Yae Miko — Portrait" class="clickable-img" onerror="this.src='image/YaeMiko_carte.webp'" />
+  </div>
+
+  <section id="description">
+    <h2>Description</h2>
+    <p>Yae Miko est la Grande Prêtresse du Grand Sanctuaire de Narukami et l'éditrice en chef de Yae Publishing House à Inazuma. Renarde divine au service d'Ei, l'Archon Électro, elle dissimule sous un sourire espiègle et une sophistication redoutable une puissance électrique dévastatrice. En combat, elle invoque des totems kitsune qui enchaînent des décharges foudroyantes sur ses ennemis.</p>
+  </section>
+
+  <section id="histoire">
+    <h2>Son Histoire</h2>
+    <p>Yae Miko est une kitsune de plusieurs siècles qui a traversé les âges aux côtés d'Ei. Gardienne des traditions spirituelles d'Inazuma, elle veille sur le Grand Sanctuaire tout en jouant un rôle de confidente privilégiée de l'Archon. Derrière ses manières badines et sa tendance à taquiner mortels comme immortels, elle porte le poids des siècles avec une sagesse que peu peuvent égaler. Sa relation avec Ei transcende le simple service : c'est une amitié forgée dans le temps et l'éternité.</p>
+  </section>
+
+  <section id="autres">
+    <h2>Autres Infos</h2>
+    <div class="info-grid">
+      <div class="info-card"><strong>Traits de personnalité</strong><span>Espiègle, sophistiquée, mystérieuse, d'une intelligence acérée et d'un humour mordant qui cache une profonde loyauté</span></div>
+      <div class="info-card"><strong>Capacités spéciales</strong><span>Catalyseur Électro, totems Sesshou Sakura, décharges en chaîne, compétence Yōken qui frappe et place les totems simultanément</span></div>
+      <div class="info-card"><strong>Relations</strong><span>Grande Prêtresse d'Ei, confidente de l'Archon d'Inazuma, figure spirituelle respectée de tout le peuple d'Inazuma</span></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2>Vidéo du personnage</h2>
+    <div style="text-align:center;">
+      <iframe width="800" height="450"
+              src="https://www.youtube.com/embed/3NK_9Ref_Ko"
+              title="Vidéo Yae Miko"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html"><button>← Retour à l'accueil</button></a>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Image agrandie" />
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.clickable-img').forEach(img => {
+    img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.style.display = 'flex'; });
+  });
+  lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; lightboxImg.src = ''; });
+
+  const charMap = {
+    "venti":"venti.html","zhongli":"zhongli.html","raiden":"raiden.html","raiden shogun":"raiden.html",
+    "nahida":"Nahida.html","furina":"furina.html","mavuika":"mavuika.html","columbina":"columbina.html",
+    "ganyu":"ganyu.html","eula":"eula.html","ayaka":"ayaka.html","shenhe":"shenhe.html",
+    "wriothesley":"wriothesley.html","layla":"layla.html","rosaria":"rosaria.html","chongyun":"chongyun.html",
+    "hu tao":"hutao.html","yoimiya":"yoimiya.html","diluc":"diluc.html","arlecchino":"arlecchino.html",
+    "lyney":"lyney.html","xiangling":"xiangling.html","bennett":"bennett.html","amber":"amber.html",
+    "neuvillette":"neuvillette.html","ayato":"ayato.html","kamisato ayato":"ayato.html",
+    "yelan":"yelan.html","tartaglia":"tartaglia.html","childe":"tartaglia.html",
+    "yae miko":"yaemiko.html","yae":"yaemiko.html","clorinde":"clorinde.html",
+    "keqing":"keqing.html","cyno":"cyno.html"
+  };
+  function searchCharacter() {
+    const v = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (charMap[v]) window.location.href = charMap[v];
+    else alert("Personnage non trouvé !");
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchCharacter(); });
+</script>
+
+</body>
+</html>
