@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajout d'un nouveau véhicule</title>
+</head>
+<body bgcolor="cyan">
+
+    <h1>Ajout d'un nouveau véhicule</h1>
+
+    <form action="#" method="post">
+        <table border="0" width="60%">
+
+            <tr>
+                <td><label for="marque">Marque</label></td>
+                <td>
+                    <select id="marque" name="marque">
+                        <option value="peugeot">Peugeot</option>
+                        <option value="mercedes">Mercedes</option>
+                        <option value="renault">Renault</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="immatriculation">Immatriculation</label></td>
+                <td><input type="text" id="immatriculation" name="immatriculation"></td>
+            </tr>
+
+            <tr>
+                <td><label for="couleur">Couleur</label></td>
+                <td><input type="text" id="couleur" name="couleur"></td>
+            </tr>
+
+            <tr>
+                <td><label for="date-immatriculation">Date d'immatriculation</label></td>
+                <td><input type="date" id="date-immatriculation" name="date-immatriculation"></td>
+            </tr>
+
+            <tr>
+                <td><label for="kilometrage">Kilométrage</label></td>
+                <td><input type="number" id="kilometrage" name="kilometrage" min="0"></td>
+            </tr>
+
+            <tr>
+                <td><label for="etat-occasion">État</label></td>
+                <td>
+                    <input type="radio" id="etat-occasion" name="etat" value="occasion">
+                    <label for="etat-occasion">Occasion</label>
+                    <input type="radio" id="etat-neuf" name="etat" value="neuf">
+                    <label for="etat-neuf">Neuf</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="carburant-hybride">Carburant</label></td>
+                <td>
+                    <input type="radio" id="carburant-hybride" name="carburant" value="hybride">
+                    <label for="carburant-hybride">Hybride</label>
+                    <input type="radio" id="carburant-electrique" name="carburant" value="electrique">
+                    <label for="carburant-electrique">Électrique</label>
+                    <input type="radio" id="carburant-diesel" name="carburant" value="diesel">
+                    <label for="carburant-diesel">Diesel</label>
+                    <input type="radio" id="carburant-essence" name="carburant" value="essence">
+                    <label for="carburant-essence">Essence</label>
+                </td>
+            </tr>
+
+            <!-- Boîte de vitesses : liste déroulante choisie car il s'agit d'un choix unique
+                 parmi un nombre limité et fixe de valeurs (Manuelle / Automatique). -->
+            <tr>
+                <td><label for="boite-vitesses">Boîte de vitesses</label></td>
+                <td>
+                    <select id="boite-vitesses" name="boite-vitesses">
+                        <option value="manuelle">Manuelle</option>
+                        <option value="automatique">Automatique</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="nombre-portes">Nombre de portes</label></td>
+                <td><input type="number" id="nombre-portes" name="nombre-portes" min="2" max="5"></td>
+            </tr>
+
+           
+            <tr>
+                <td><label for="tarif-journalier">Tarif de location journalier (€)</label></td>
+                <td><input type="number" id="tarif-journalier" name="tarif-journalier" min="0" step="0.01"></td>
+            </tr>
+
+         
+            <tr>
+                <td><label for="disponibilite">Véhicule disponible</label></td>
+                <td><input type="checkbox" id="disponibilite" name="disponibilite"></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <button type="submit">Enregistrer</button>
+                    <button type="reset">Annuler</button>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+
+</body>
+</html>
