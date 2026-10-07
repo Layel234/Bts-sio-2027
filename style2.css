@@ -1,4 +1,6 @@
+/* Feuille de style – application de location de voitures */
 
+/* Question 2 : le corps de la page */
 body {
     background-color: aqua;
     font-family: Arial, sans-serif;
@@ -7,12 +9,12 @@ body {
     text-align: center;
 }
 
-
+/* Question 3 : le titre principal */
 h1 {
     color: red;
 }
 
-
+/* Question 4 : le cadre du formulaire */
 form {
     background-color: blanchedalmond;
     max-width: 400px;
@@ -22,14 +24,14 @@ form {
     box-shadow: 0 0 10px rgba(0, 0, 0, 2);
 }
 
-
+/* Question 5 : les libellés */
 label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-
+/* Question 6 : les champs de saisie */
 input[type="text"], input[type="email"], textarea {
     width: 90%;
     padding: 10px;
@@ -38,7 +40,7 @@ input[type="text"], input[type="email"], textarea {
     border-radius: 30px;
 }
 
-
+/* Question 7 : le bouton d'envoi */
 input[type="submit"] {
     background-color: blue;
     color: #fff;
@@ -48,12 +50,13 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-
+/* Question 8 : le bouton au survol de la souris */
 input[type="submit"]:hover {
     background-color: green;
 }
 
-
+/* Images des véhicules : taille limitée en largeur et en hauteur */
+.carte img {
     display: block;
     width: 100%;
     max-width: 300px;
